@@ -1,7 +1,10 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {View,TextInput, Button, StyleSheet} from 'react-native';
 
 const NewEntryForm = () => {
+    const navigation = useNavigation();
+
     return(
         <View style={styles.container}>
             <View>
@@ -12,7 +15,7 @@ const NewEntryForm = () => {
             </View>
             <View>
                 <Button style={styles.button} title="Adicionar"/>
-                <Button style={styles.button} title="Cancelar"/>
+                <Button style={styles.button} title="Cancelar" onPress={() => {navigation.goBack()}} />
             </View>            
         </View>
     );

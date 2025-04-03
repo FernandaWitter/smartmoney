@@ -5,9 +5,11 @@ import BalanceLabel from '../../components/BalanceLabel/BalanceLabel';
 import NewEntryForm from '../../components/NewEntryForm/NewEntryForm';
 
 const NewEntry = () => {
+    const currBalance = 1234.56
+
     return(
         <View style={styles.container}>
-            <BalanceLabel/>
+            <BalanceLabel currBalance={currBalance}/>
             <NewEntryForm/>
         </View>
     );

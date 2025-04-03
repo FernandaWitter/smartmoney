@@ -1,20 +1,14 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 
-const DATA = [{key: 'The Good Bakery: $10'},
-    {key: 'Aldi: $190'},
-    {key: 'One Gas Stop: $190'}
-]
-
-const EntryListItem = () => {
+const EntryListItem = ({entries}) => {
     return(
         <View style={styles.container}>
             <Text style={styles.title}>Latest transactions </Text>
             <FlatList
-                data={DATA}
-                keyExtractor={DATA.key}
+                data={entries}
                 renderItem={({item}) => (
-                    <Text style={styles.entryItem}>{item.key}</Text>
+                    <Text style={styles.entryItem}>{item.description}: ${item.amount}</Text>
                 )}
             />
         </View>

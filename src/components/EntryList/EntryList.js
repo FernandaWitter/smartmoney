@@ -3,10 +3,10 @@ import {View, StyleSheet} from 'react-native';
 
 import EntryListItem from './EntryListItem/EntryListItem';
 
-const EntryList = () => {
+const EntryList = ({entries}) => {
     return(
         <View style={styles.container}>
-            <EntryListItem/>
+            <EntryListItem entries={entries}/>
         </View>
     );
 };

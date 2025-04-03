@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const BalanceLabel = () => {
+const BalanceLabel = ({currBalance}) => {
     return(
         <View style={styles.container}>
             <Text style={styles.label}>Current balance</Text>
-            <Text style={styles.value}>$2.064,35</Text>
+            <Text style={styles.value}>${currBalance}</Text>
         </View>
     );
 };
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         padding: 10
     },
     value: {
-        fontSize:18
+        fontSize:22
     }
 });
 
