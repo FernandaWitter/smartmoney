@@ -1,51 +1,44 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 import BalancePanel from '../../components/BalancePanel/BalancePanel';
 import EntrySummary from '../../components/EntrySummary/EntrySummary';
 import EntryList from '../../components/EntryList/EntryList';
-import { createTable, getDBConnection, getEntries, saveEntryItems } from '../../database/db-service';
+import {connectToDatabase, createTables, getBalance, getCategories, getEntries} from '../../database/db-service';
 
 const Main = () => {
 
-    const [entries, setEntries] = useState()
-    const currBalance = 2064.35;
-
-    const SUMMARY = [{key: '1', description: 'Food', amount: 400},
-        {key: '2', description: 'Gas', amount: 12},
-        {key: '3', description: 'Rent', amount: 120},
-        {key: '4', description: 'Leisure', amount: 250},
-        {key: '5', description: 'Others', amount: 1200}
-    ]
-    
-    const ENTRIES_LIST = [{key: '1', category:2, amount: 10, description: 'The Good Bakery'},
-        {key: '2', category: 2, amount: 190, description: 'Aldi'},
-        {key: '3', category: 3, amount: 290, description: 'One Gas Stop'}
-    ]
-
-    const loadDataCallback = useCallback(async () => {
+  const [balance, setBalance] = useState()
+  const [entries, setEntries] = useState()
+  const [categories, setCategories] = useState()
+  
+  const loadData = useCallback(async () => {
     try {
-      const db = await getDBConnection();
-      await createTable(db);
-      const items = await getEntries(db);
-      if (items.length) {
-        setEntries(items);
-      } else {
-        await saveEntryItems(db, ENTRIES_LIST);
-        setEntries(ENTRIES_LIST);
-      }
+      const db = await connectToDatabase()
+      await createTables(db)
+
+      const balance = await getBalance(db)
+      if (balance != null && balance != undefined){ setBalance(balance)}
+
+      const entries = await getEntries(db)
+      if(entries.length > 0){setEntries(entries)}
+
+      const cat = await getCategories(db)
+      if(cat.length > 0){setCategories(cat)}
+
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  }, []);
+  }, [])
+  
   useEffect(() => {
-    loadDataCallback();
-  }, [loadDataCallback]);
+    loadData()
+  }, [loadData])
 
     return (
         <View style={styles.container}>
-            <BalancePanel currBalance={currBalance}/>
-            <EntrySummary summary={SUMMARY} />
+            <BalancePanel currBalance={balance}/>
+            <EntrySummary summary={categories} />
             <EntryList entries={entries} />
         </View>
     );
