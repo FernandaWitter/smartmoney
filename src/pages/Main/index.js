@@ -4,7 +4,8 @@ import {View, StyleSheet} from 'react-native';
 import BalancePanel from '../../components/BalancePanel/BalancePanel';
 import EntrySummary from '../../components/EntrySummary/EntrySummary';
 import EntryList from '../../components/EntryList/EntryList';
-import {connectToDatabase, createTables, getBalance, getCategories, getEntries} from '../../database/db-service';
+import { getBalance, getCategories, getEntries} from '../../database/sevices/entryService';
+import { connectToDatabase, createTables } from '../../database/DBConfig';
 
 const Main = () => {
 
