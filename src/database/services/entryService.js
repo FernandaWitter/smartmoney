@@ -1,5 +1,3 @@
-import {enablePromise, openDatabase} from "react-native-sqlite-storage"
-
 const CATEGORY_TABLE = 'categories';
 const ENTRY_TABLE = 'entries'
 
@@ -39,7 +37,7 @@ export const getCategories = async(db) => {
         return shownCategories;
     } catch (error) {
         console.error(error);
-        throw Error('Failed to get categories !!!');
+        throw Error('Failed to get categories.');
     }
 };
 
@@ -60,21 +58,45 @@ export const getEntries = async(db) => {
         return shownEntries;
     } catch (error) {
         console.error(error);
-        throw Error('Failed to get entries !!!');
+        throw Error('Failed to get entries.');
     }
 };
 
-/*
-export const saveEntryItems = async(db, entry) => {
-    const insertQuery =
-        `INSERT INTO ${ENTRY_TABLE}(category, amount, description) VALUES
-        (${entry.category}, ${entry.amount}, '${entry.description}');`;
+export const getLatestEntries = async(db) => {
+    try {
+        const recoveredEntries = await db.executeSql(
+            "SELECT description, amount FROM entries ORDER BY updateDate DESC LIMIT 5"
+        )
+        const shownEntries = []
+        recoveredEntries?.forEach((result) => {
+            for (let index = 0; index < result.rows.length; index++) {
+                shownEntries[index] = {
+                    "description": result.rows.item(index).description,
+                    "amount": result.rows.item(index).amount
+                }
+            }
+        })
+        return shownEntries;
+    } catch (error) {
+        console.error(error);
+        throw Error('Failed to get latest entries.');
+    }
+};
 
-    return db.executeSql(insertQuery, () => console.log('Table created successfully'),
+export const saveEntryItem = async(db, entry) => {
+    console.log("Entered save function")
+    console.log(entry)
+    const currDate = new Date().getTime()
+    const insertQuery =
+        `INSERT INTO ${ENTRY_TABLE}(category, amount, description, insertDate, updateDate) VALUES
+        (${entry.category}, ${entry.amount}, '${entry.description}', '${currDate}', '${currDate}');`;
+
+    return db.executeSql(insertQuery, 
+        () => { console.log('Data added to DB')},
         error => { console.log(error) });
 };
 
-      
+/*      
       export const deleteTodoItem = async (db: SQLiteDatabase, id: number) => {
         const deleteQuery = `DELETE from ${tableName} where rowid = ${id}`;
         await db.executeSql(deleteQuery);

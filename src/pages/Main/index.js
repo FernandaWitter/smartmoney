@@ -4,8 +4,9 @@ import {View, StyleSheet} from 'react-native';
 import BalancePanel from '../../components/BalancePanel/BalancePanel';
 import EntrySummary from '../../components/EntrySummary/EntrySummary';
 import EntryList from '../../components/EntryList/EntryList';
-import { getBalance, getCategories, getEntries} from '../../database/sevices/entryService';
-import { connectToDatabase, createTables } from '../../database/DBConfig';
+import { getBalance, getCategories, getLatestEntries} from '../../database/services/entryService';
+import { clearDatabase, connectToDatabase, createTables } from '../../database/DBConfig';
+import { useIsFocused } from '@react-navigation/native';
 
 const Main = () => {
 
@@ -16,12 +17,13 @@ const Main = () => {
   const loadData = useCallback(async () => {
     try {
       const db = await connectToDatabase()
+      //await clearDatabase(db)
       await createTables(db)
 
       const balance = await getBalance(db)
       if (balance != null && balance != undefined){ setBalance(balance)}
 
-      const entries = await getEntries(db)
+      const entries = await getLatestEntries(db)
       if(entries.length > 0){setEntries(entries)}
 
       const cat = await getCategories(db)
@@ -31,10 +33,12 @@ const Main = () => {
       console.error(error)
     }
   }, [])
+
+  const isFocused = useIsFocused();
   
   useEffect(() => {
-    loadData()
-  }, [loadData])
+    loadData();
+  }, [isFocused])
 
     return (
         <View style={styles.container}>
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
     }, 
     title: {
         fontSize: 20,
-    }
+    },
 });
 
 export default Main;

@@ -32,6 +32,7 @@ export const createTables = async(db) => {
     amount REAL NOT NULL,
     description TEXT,
     insertDate TEXT,
+    updateDate TEXT,
     lat REAL,
     long REAL,
     photo BLOB,
@@ -46,18 +47,22 @@ export const createTables = async(db) => {
     (5, "Leisure", "#41D3BD", false, false, 5),
     (6, "Others", "#134074", false, false, 6);`
 
-    const insertEntryQuery = `INSERT OR REPLACE INTO ${ENTRY_TABLE} (id, category, amount, description) VALUES
-        (1, 2, 10, "The Good Bakery"),
-        (2, 2, 190, "Aldi"),
-        (3, 3, 290, "One Gas Stop");`
-
     try {
-        await db.executeSql(catQuery)
-        await db.executeSql(entriesQuery)
-        await db.executeSql(insertCatQuery)
-        await db.executeSql(insertEntryQuery)
+        await db.executeSql(catQuery, error => { console.log(error) })
+        await db.executeSql(entriesQuery, error => { console.log(error) })
+        await db.executeSql(insertCatQuery, error => { console.log(error) })
     } catch (error) {
         console.error(error)
         throw Error(`Failed to create tables`)
+    }
+}
+
+export const clearDatabase = async(db) => {
+    try{
+        await db.executeSql(`DROP TABLE IF EXISTS ${ENTRY_TABLE}`)
+        await db.executeSql(`DROP TABLE IF EXISTS ${CATEGORY_TABLE}`)
+    } catch {
+        console.error(error)
+        throw Error(`Failed to drop tables`)
     }
 }
