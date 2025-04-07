@@ -10,19 +10,19 @@ import { getBalance } from '../../database/services/entryService';
 const NewEntry = () => {
     const [balance, setBalance] = useState()
 
-    const loadData = useCallback(async() => {
-        try {
-            const db = await connectToDatabase()
-
-            const balance = await getBalance(db)
-            if (balance != null && balance != undefined) { setBalance(balance) }
-
+    const loadData = useCallback(async () => {
+      try {
+        const db = await connectToDatabase()
+        
+        const balance = await getBalance(db)
+          if (balance != null && balance != undefined){ setBalance(balance)}
+    
         } catch (error) {
             console.error(error)
         }
-    }, [])
-
-    useEffect(() => {
+      }, [])
+      
+      useEffect(() => {
         loadData()
     }, [loadData])
 
