@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {View,TextInput, Button, StyleSheet} from 'react-native';
 import { connectToDatabase } from '../../database/DBConfig';
-import { getEntryByID, getLatestEntries, saveEntryItem, updateEntryItem } from '../../database/services/entryService';
+import { deleteEntry, getEntryByID, getLatestEntries, saveEntryItem, updateEntryItem } from '../../database/services/entryService';
 
 const NewEntryForm = ({route}) => {
     const navigation = useNavigation();
@@ -36,8 +36,11 @@ const NewEntryForm = ({route}) => {
 
 
     //TODO: Validate input data
+    const onClose = () => {
+        navigation.goBack();
+    };
 
-    const saveEntry = async () => {
+    const onSave = async () => {
         const db = await connectToDatabase()
         const amountInformed = parseFloat(amount)
         const data = {
@@ -46,30 +49,45 @@ const NewEntryForm = ({route}) => {
             "amount": amountInformed,
             "description": description
         }
-        console.log(data)
         if (entryID.entryID > 0){
             await updateEntryItem(db, data)            
         } else {
             await saveEntryItem(db, data);
         }
-      }
+        onClose();
+    };
+    
+    const onDelete = async () => {
+        const db = await connectToDatabase()
+        console.log("DELETE ID")
+        console.log(entryID.entryID)
+        if (entryID.entryID > 0){ 
+            await deleteEntry(db, entryID.entryID)
+            onClose();
+        }
+    };
 
     return(
         <View style={styles.container}>
             <View>
-                <TextInput style={styles.input} value={amount} onChangeText={(text) => {setAmount(text)}}/>
-                <TextInput style={styles.input} value={description} onChangeText={(text) => {setDescription(text)}}/>
+                <TextInput 
+                    style={styles.input} value={amount}
+                    placeholder='Amount'
+                    onChangeText={(text) => {setAmount(text)}}/>
+                <TextInput 
+                    style={styles.input} value={description}
+                    placeholder='Description'
+                    onChangeText={(text) => {setDescription(text)}}/>
                 <Button style={styles.button} title="GPS"/>
                 <Button style={styles.button} title="Camera"/>
             </View>
             <View>
                 <Button style={styles.button} title="Salvar" 
-                    onPress={() => {
-                        saveEntry();
-                        navigation.goBack();
-                    }}/>
+                    onPress={onSave}/>
+                <Button style={styles.button} title="Excluir" 
+                    onPress={onDelete}/>
                 <Button style={styles.button} title="Cancelar" 
-                    onPress={() => {navigation.goBack()}} />
+                    onPress={onClose} />
             </View>            
         </View>
     );

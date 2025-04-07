@@ -134,17 +134,10 @@ export const updateEntryItem = async (db, entry) => {
     )
 }
 
-
-
-/*      
-      export const deleteTodoItem = async (db: SQLiteDatabase, id: number) => {
-        const deleteQuery = `DELETE from ${tableName} where rowid = ${id}`;
-        await db.executeSql(deleteQuery);
-      };
-
-      export const deleteTable = async (db: SQLiteDatabase) => {
-        const query = `drop table ${tableName}`;
-
-        await db.executeSql(query);
-      };*/
-
+export const deleteEntry = async (db, id) => {
+    console.log("DELETE ID")
+    console.log(id)
+    const deleteQuery = `DELETE FROM ${ENTRY_TABLE} WHERE id = ${id}`;
+    console.log(deleteQuery)
+    return db.executeSql(deleteQuery, error => {console.log(error)});
+};
