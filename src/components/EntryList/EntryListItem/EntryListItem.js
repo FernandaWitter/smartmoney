@@ -1,14 +1,23 @@
+import { Button } from '@react-navigation/elements';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 
 const EntryListItem = ({entries}) => {
+    const navigation = useNavigation();
+
     return(
         <View style={styles.container}>
             <Text style={styles.title}>Latest transactions </Text>
             <FlatList
                 data={entries}
                 renderItem={({item}) => (
-                    <Text style={styles.entryItem}>{item.description}: ${item.amount}</Text>
+                    <TouchableOpacity
+                        onPress={() =>{
+                            navigation.navigate('NewEntry', {entryID: item.id})
+                    }}>
+                        <Text>{item.description}: ${item.amount}</Text>
+                    </TouchableOpacity>
                 )}
             />
         </View>

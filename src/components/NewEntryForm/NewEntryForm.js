@@ -1,14 +1,39 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {View,TextInput, Button, StyleSheet} from 'react-native';
 import { connectToDatabase } from '../../database/DBConfig';
-import { saveEntryItem } from '../../database/services/entryService';
+import { getEntryByID, getLatestEntries, saveEntryItem, updateEntryItem } from '../../database/services/entryService';
 
-const NewEntryForm = () => {
+const NewEntryForm = ({route}) => {
     const navigation = useNavigation();
+    const entryID = route?.route?.params || {"entryID": 0}
 
     const [amount, setAmount] = useState('');
+    const [category, setCategory] = useState(2);
     const [description, setDescription] = useState('');
+
+    const loadData = useCallback(async () => {
+        try {
+            const db = await connectToDatabase()
+
+            if (entryID.entryID > 0){
+                const currEntry = await getEntryByID(db, entryID.entryID)
+                if (currEntry != null && currEntry != undefined){ 
+                    setAmount(`${currEntry.amount}`)
+                    setDescription(currEntry.description)
+                    setCategory(`${currEntry.category}`)
+                }
+            }
+            
+        } catch (error) {
+              console.error(error)
+        }
+    }, [])
+          
+    useEffect(() => {
+        loadData()
+    }, [loadData])
+
 
     //TODO: Validate input data
 
@@ -16,11 +41,17 @@ const NewEntryForm = () => {
         const db = await connectToDatabase()
         const amountInformed = parseFloat(amount)
         const data = {
-          "category": 1,
-          "amount": amountInformed,
-          "description": description
+            "id": entryID.entryID,
+            "category": 1,
+            "amount": amountInformed,
+            "description": description
         }
-         await saveEntryItem(db, data);       
+        console.log(data)
+        if (entryID.entryID > 0){
+            await updateEntryItem(db, data)            
+        } else {
+            await saveEntryItem(db, data);
+        }
       }
 
     return(
@@ -32,11 +63,13 @@ const NewEntryForm = () => {
                 <Button style={styles.button} title="Camera"/>
             </View>
             <View>
-                <Button style={styles.button} title="Adicionar" onPress={() => {
-                    saveEntry();
-                    navigation.goBack();
+                <Button style={styles.button} title="Salvar" 
+                    onPress={() => {
+                        saveEntry();
+                        navigation.goBack();
                     }}/>
-                <Button style={styles.button} title="Cancelar" onPress={() => {navigation.goBack()}} />
+                <Button style={styles.button} title="Cancelar" 
+                    onPress={() => {navigation.goBack()}} />
             </View>            
         </View>
     );

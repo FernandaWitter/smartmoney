@@ -44,14 +44,16 @@ export const getCategories = async(db) => {
 export const getEntries = async(db) => {
     try {
         const recoveredEntries = await db.executeSql(
-            "SELECT description, amount FROM entries"
+            "SELECT id, category, amount, description FROM entries ORDER BY insertDate DESC"
         )
         const shownEntries = []
         recoveredEntries?.forEach((result) => {
             for (let index = 0; index < result.rows.length; index++) {
                 shownEntries[index] = {
-                    "description": result.rows.item(index).description,
-                    "amount": result.rows.item(index).amount
+                    "id": result.rows.item(index).id,
+                    "category": result.rows.item(index).category,
+                    "amount": result.rows.item(index).amount,
+                    "description": result.rows.item(index).description
                 }
             }
         })
@@ -65,14 +67,16 @@ export const getEntries = async(db) => {
 export const getLatestEntries = async(db) => {
     try {
         const recoveredEntries = await db.executeSql(
-            "SELECT description, amount FROM entries ORDER BY updateDate DESC LIMIT 5"
+            "SELECT id, category, amount, description FROM entries ORDER BY insertDate DESC LIMIT 5"
         )
         const shownEntries = []
         recoveredEntries?.forEach((result) => {
             for (let index = 0; index < result.rows.length; index++) {
                 shownEntries[index] = {
-                    "description": result.rows.item(index).description,
-                    "amount": result.rows.item(index).amount
+                    "id": result.rows.item(index).id,
+                    "category": result.rows.item(index).category,
+                    "amount": result.rows.item(index).amount,
+                    "description": result.rows.item(index).description
                 }
             }
         })
@@ -83,18 +87,54 @@ export const getLatestEntries = async(db) => {
     }
 };
 
+export const getEntryByID = async (db, id) => {
+    try {
+        const recoveredEntry = await db.executeSql(
+            `SELECT amount, category, description FROM ${ENTRY_TABLE} WHERE id = ${id}`
+        )
+        let entry = {}
+        recoveredEntry?.forEach((result) => {
+            for (let index = 0; index < result.rows.length; index++) {
+                entry = {
+                    "id": id,
+                    "category": result.rows.item(index).category,
+                    "amount": result.rows.item(index).amount,
+                    "description": result.rows.item(index).description
+                }
+            }
+        })
+        return entry;
+    } catch (error) {
+        console.error(error);
+        throw Error('Failed to get entry by ID.');
+    }
+}
+
 export const saveEntryItem = async(db, entry) => {
-    console.log("Entered save function")
-    console.log(entry)
     const currDate = new Date().getTime()
     const insertQuery =
         `INSERT INTO ${ENTRY_TABLE}(category, amount, description, insertDate, updateDate) VALUES
         (${entry.category}, ${entry.amount}, '${entry.description}', '${currDate}', '${currDate}');`;
 
-    return db.executeSql(insertQuery, 
-        () => { console.log('Data added to DB')},
-        error => { console.log(error) });
+    return db.executeSql(insertQuery, error => { console.log(error) });
 };
+
+export const updateEntryItem = async (db, entry) => {
+    const currDate = new Date().getTime()
+    console.log('UPDATE FUNCTION')
+    console.log(entry)
+    const updateQuery =
+        `UPDATE ${ENTRY_TABLE} SET 
+            category = ${entry.category},
+            amount = ${entry.amount},
+            description = '${entry.description}',
+            updateDate = ${currDate}
+        WHERE id = ${entry.id}`
+    return db.executeSql(updateQuery, error => {console.log(error)}
+    )
+}
+
+
 
 /*      
       export const deleteTodoItem = async (db: SQLiteDatabase, id: number) => {
