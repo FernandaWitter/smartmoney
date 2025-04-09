@@ -4,12 +4,14 @@ import {View, StyleSheet} from 'react-native';
 import EntrySummaryChart from './EntrySummaryChart/EntrySummaryChart';
 import EntrySummaryList from './EntrySummaryList/EntrySummaryList';
 import { connectToDatabase } from '../../database/DBConfig';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { getCategories } from '../../database/services/entryService';
+import Container from '../Core/Container';
 
-const EntrySummary = ({summary}) => {
+const EntrySummary = ({days = 7, onPressActionButton}) => {
 
     const [categories, setCategories] = useState()
+	const navigation = useNavigation();
     
     const loadData = useCallback(async () => {
         try {
@@ -30,10 +32,13 @@ const EntrySummary = ({summary}) => {
       }, [isFocused])
 
     return(
-        <View style={styles.container}>
+        <Container title="Categories"
+        	actionLabelText={`Last ${days} days`}
+        	actionButtonText="More"
+			onPressActionButton={() => {navigation.navigate('Report')}}>
             <EntrySummaryChart/>
             <EntrySummaryList summary={categories}/>
-        </View>
+        </Container>
     );
 };
 

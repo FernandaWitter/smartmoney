@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {View, Button, StyleSheet} from 'react-native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { connectToDatabase } from '../../database/DBConfig';
+import { getBalance } from '../../database/services/entryService';
 
 import BalancePanelLabel from './BalancePanelLabel/BalancePanelLabel';
 import BalancePanelChart from './BalancePanelChart/BalancePanelChart';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { connectToDatabase } from '../../database/DBConfig';
-import { getBalance } from '../../database/services/entryService';
+import LinearGradient from 'react-native-linear-gradient';
+import Colors from '../../styles/colors';
+import Icon from '@react-native-vector-icons/material-icons';
 
 const BalancePanel = () => {
 
@@ -31,18 +34,40 @@ const BalancePanel = () => {
       }, [isFocused])
 
     return(
-        <View style={styles.container}>
+      <View style={styles.container}>
+          <LinearGradient colors={[Colors.violet, Colors.blue]}
+            style={styles.panel}>
             <BalancePanelLabel currBalance={balance}/>
             <BalancePanelChart/>
-            <Button title="Add transaction" onPress={() => {navigation.navigate('NewEntry')}}/>
+          </LinearGradient>
+          <TouchableOpacity onPress={() => {navigation.navigate('NewEntry')}}
+            style={styles.button} >
+            <Icon name='add' size={30} color={Colors.white}/>
+          </TouchableOpacity>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container:{
-        flex: 1
-    }
+  container: {
+    marginBottom: -23,
+  },
+  panel:{
+    paddingVertical: 10
+  },
+  button:{
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    backgroundColor:Colors.green,
+    borderRadius: 150,
+    elevation: 5,
+    height: 50,
+    justifyContent:'center',
+    marginTop: -25,
+    marginRight: 10,
+    shadowColor: Colors.black,
+    width: 50,    
+  },
 });
 
 export default BalancePanel;

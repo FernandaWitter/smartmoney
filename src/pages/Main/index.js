@@ -6,6 +6,7 @@ import EntrySummary from '../../components/EntrySummary/EntrySummary';
 import EntryList from '../../components/EntryList/EntryList';
 import { clearDatabase, connectToDatabase, createTables } from '../../database/DBConfig';
 import { useIsFocused } from '@react-navigation/native';
+import Colors from '../../styles/colors';
 
 const Main = () => {
 
@@ -38,6 +39,7 @@ const Main = () => {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        backgroundColor: Colors.background,
     }, 
     title: {
         fontSize: 20,

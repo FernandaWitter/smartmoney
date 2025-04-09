@@ -36,25 +36,37 @@ const NewEntryForm = ({route}) => {
 
 
     //TODO: Validate input data
+    const isValid = () => {
+        if(parseFloat(amount) != 0){
+            return true;
+        }
+        return false;
+    };
+    
     const onClose = () => {
         navigation.goBack();
     };
 
     const onSave = async () => {
-        const db = await connectToDatabase()
-        const amountInformed = parseFloat(amount)
-        const data = {
-            "id": entryID.entryID,
-            "category": 1,
-            "amount": amountInformed,
-            "description": description
-        }
-        if (entryID.entryID > 0){
-            await updateEntryItem(db, data)            
+        if(isValid){
+            const db = await connectToDatabase()
+            const amountInformed = parseFloat(amount)
+            const data = {
+                "id": entryID.entryID,
+                "category": 1,
+                "amount": amountInformed,
+                "description": description
+            }
+            if (entryID.entryID > 0){
+                await updateEntryItem(db, data)            
+            } else {
+                await saveEntryItem(db, data);
+            }
+            onClose();
         } else {
-            await saveEntryItem(db, data);
+
         }
-        onClose();
+        
     };
     
     const onDelete = async () => {
