@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         //flex: 1,     
     },
 	itemText: {
-    	fontSize: 16,
+    	fontSize: 18,
   	},
 });
 

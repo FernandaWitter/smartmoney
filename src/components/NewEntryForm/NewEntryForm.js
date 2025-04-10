@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
-import {View,TextInput, Button, StyleSheet} from 'react-native';
+import {View,TextInput, Button, StyleSheet, Text} from 'react-native';
 import { connectToDatabase } from '../../database/DBConfig';
 import { deleteEntry, getEntryByID, getLatestEntries, saveEntryItem, updateEntryItem } from '../../database/services/entryService';
+import MoneyInput from '../Core/MoneyInput';
+import Colors from '../../styles/colors';
+import CategoryPicker from './CategoryPicker';
 
 const NewEntryForm = ({route}) => {
     const navigation = useNavigation();
@@ -16,7 +19,7 @@ const NewEntryForm = ({route}) => {
         try {
             const db = await connectToDatabase()
 
-            if (entryID.entryID > 0){
+            if (entryID.entryID > 0){ 
                 const currEntry = await getEntryByID(db, entryID.entryID)
                 if (currEntry != null && currEntry != undefined){ 
                     setAmount(`${currEntry.amount}`)
@@ -53,7 +56,7 @@ const NewEntryForm = ({route}) => {
             const amountInformed = parseFloat(amount)
             const data = {
                 "id": entryID.entryID,
-                "category": 1,
+                "category": 6,
                 "amount": amountInformed,
                 "description": description
             }
@@ -82,14 +85,21 @@ const NewEntryForm = ({route}) => {
     return(
         <View style={styles.container}>
             <View>
-                <TextInput 
-                    style={styles.input} value={amount}
-                    placeholder='Amount'
-                    onChangeText={(text) => {setAmount(text)}}/>
-                <TextInput 
-                    style={styles.input} value={description}
-                    placeholder='Description'
-                    onChangeText={(text) => {setDescription(text)}}/>
+                <MoneyInput
+                    value={amount}
+                    onChangeValue={()=> {setAmount}}
+                    label='Amount'
+                />    
+                <View>
+                    <Text style={styles.label}>Description</Text>
+                    <TextInput 
+                        style={styles.input} value={description}
+                        onChangeText={(text) => {setDescription(text)}}
+                        multiline={true}
+                        rows={3}
+                        />
+                </View>
+                <CategoryPicker/>
                 <Button style={styles.button} title="GPS"/>
                 <Button style={styles.button} title="Camera"/>
             </View>
@@ -107,17 +117,26 @@ const NewEntryForm = ({route}) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 3,
         padding: 10,
     },
     input: {
-        borderColor: '#000',
-        borderWidth: 1,
-        margin: 10,
+        fontSize: 28,
+        color: Colors.white,
+        textAlign: 'center',
+        backgroundColor: Colors.asphalt,
+        borderRadius: 15,
+        marginHorizontal: 20,
+        marginVertical: 10
     }, 
     button:{
         margin: 10,
         padding: 10,
+    },
+    label:{
+        fontSize:24,
+        color: Colors.white,
+        textAlign: 'center',
     }
 });
 

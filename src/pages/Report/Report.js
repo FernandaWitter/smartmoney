@@ -5,9 +5,10 @@ import BalanceLabel from '../../components/BalanceLabel/BalanceLabel';
 import ReportFilter from '../../components/ReportFilter/ReportFilter';
 import EntrySummary from '../../components/EntrySummary/EntrySummary';
 import EntryList from '../../components/EntryList/EntryList';
+import { useNavigation } from '@react-navigation/native';
 
 const Report = () => {
-
+    const navigation = useNavigation();
     const currBalance = 789.12;
 
     const SUMMARY = [{key: '1', description: 'Food', amount: 400},
@@ -32,7 +33,7 @@ const Report = () => {
             </>
             <>
                 <Button title="Salvar"/>
-                <Button title="Fechar"/>
+                <Button title="Fechar" onPress={() => {navigation.goBack();}}/>
             </> 
         </View>
     );

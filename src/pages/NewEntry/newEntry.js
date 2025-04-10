@@ -1,35 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
 import BalanceLabel from '../../components/BalanceLabel/BalanceLabel';
 import NewEntryForm from '../../components/NewEntryForm/NewEntryForm';
+import Colors from '../../styles/colors';
 
-import { connectToDatabase } from '../../database/DBConfig';
-import { getBalance } from '../../database/services/entryService';
 
-const NewEntry = (route) => {
-    const [balance, setBalance] = useState()
-
-    const loadData = useCallback(async () => {
-      try {
-        const db = await connectToDatabase()
-        
-        const balance = await getBalance(db)
-          if (balance != null && balance != undefined){ setBalance(balance)}
-    
-        } catch (error) {
-          console.error(error)
-        }
-      }, [])
-      
-      useEffect(() => {
-        loadData()
-      }, [loadData])
-    
+const NewEntry = (route) => { 
 
     return(
         <View style={styles.container}>
-            <BalanceLabel currBalance={balance}/>
+            <BalanceLabel/>
             <NewEntryForm route={route}/>
         </View>
     );
@@ -38,6 +19,7 @@ const NewEntry = (route) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.background
     }
 });
 

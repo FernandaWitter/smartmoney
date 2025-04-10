@@ -1,4 +1,5 @@
-import {enablePromise, openDatabase} from "react-native-sqlite-storage"
+import { enablePromise, openDatabase } from "react-native-sqlite-storage"
+import Colors from "../styles/colors";
 
 const DATABASE_NAME = 'smartMoney.db';
 const CATEGORY_TABLE = 'categories';
@@ -40,12 +41,12 @@ export const createTables = async(db) => {
     FOREIGN KEY(category) REFERENCES ${CATEGORY_TABLE}(id));`
 
     const insertCatQuery = `INSERT OR REPLACE INTO ${CATEGORY_TABLE} (id, name, color, isDefault, isCredit, catOrder) VALUES
-    (1, "Credit", "#000", false, true, 1),
-    (2, "Food", "#960200", true, false, 2),
-    (3, "Gas", "#FOC808", false, false, 3),
-    (4, "Rent", "#036D19", false, false, 4),
-    (5, "Leisure", "#41D3BD", false, false, 5),
-    (6, "Others", "#134074", false, false, 6);`
+    (1, "Credit", '${Colors.black}', false, true, 1),
+    (2, "Food", '${Colors.red}', true, false, 2),
+    (3, "Gas", '${Colors.yellow}', false, false, 3),
+    (4, "Rent", '${Colors.violet}', false, false, 4),
+    (5, "Leisure", '${Colors.turquoise}', false, false, 5),
+    (6, "Others", '${Colors.blue}', false, false, 6);`
 
     try {
         await db.executeSql(catQuery, error => { console.log(error) })
@@ -58,7 +59,7 @@ export const createTables = async(db) => {
 }
 
 export const clearDatabase = async(db) => {
-    try{
+    try {
         await db.executeSql(`DROP TABLE IF EXISTS ${ENTRY_TABLE}`)
         await db.executeSql(`DROP TABLE IF EXISTS ${CATEGORY_TABLE}`)
     } catch {

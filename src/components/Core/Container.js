@@ -26,6 +26,7 @@ const Container = ({title, actionLabelText, actionButtonText, onPressActionButto
 
 const styles = StyleSheet.create({
     container:{
+        //flex: 2,
         backgroundColor: Colors.asphalt,
         borderColor: '#87c5fb45',
         borderStyle: 'solid',

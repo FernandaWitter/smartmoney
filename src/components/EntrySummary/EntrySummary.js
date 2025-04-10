@@ -32,20 +32,23 @@ const EntrySummary = ({days = 7, onPressActionButton}) => {
       }, [isFocused])
 
     return(
-        <Container title="Categories"
-        	actionLabelText={`Last ${days} days`}
-        	actionButtonText="More"
-			onPressActionButton={() => {navigation.navigate('Report')}}>
-            <EntrySummaryChart/>
-            <EntrySummaryList summary={categories}/>
-        </Container>
+        //<View style={styles.container}>
+			<Container title="Categories"
+				actionLabelText={`Last ${days} days`}
+				actionButtonText="More"
+				onPressActionButton={() => {navigation.navigate('Report')}}>
+				<EntrySummaryChart/>
+        	    <EntrySummaryList summary={categories}/>
+    	    </Container>
+	    //</View>
+
     );
 };
 
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        margin: 10,
+        margin: 7,
     }
 });
 

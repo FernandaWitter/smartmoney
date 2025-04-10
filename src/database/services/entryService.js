@@ -67,7 +67,9 @@ export const getEntries = async(db) => {
 export const getLatestEntries = async(db) => {
     try {
         const recoveredEntries = await db.executeSql(
-            "SELECT id, category, amount, description FROM entries ORDER BY insertDate DESC LIMIT 5"
+            `SELECT ${ENTRY_TABLE}.id, category, amount, description, color, updateDate FROM ${ENTRY_TABLE} 
+                JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id
+                ORDER BY insertDate DESC LIMIT 5`
         )
         const shownEntries = []
         recoveredEntries?.forEach((result) => {
@@ -76,10 +78,13 @@ export const getLatestEntries = async(db) => {
                     "id": result.rows.item(index).id,
                     "category": result.rows.item(index).category,
                     "amount": result.rows.item(index).amount,
-                    "description": result.rows.item(index).description
+                    "description": result.rows.item(index).description,
+                    "color": result.rows.item(index).color,
+                    "updateDate": result.rows.item(index).updateDate,
                 }
             }
         })
+        console.log(shownEntries)
         return shownEntries;
     } catch (error) {
         console.error(error);
@@ -111,7 +116,7 @@ export const getEntryByID = async (db, id) => {
 }
 
 export const saveEntryItem = async(db, entry) => {
-    const currDate = new Date().getTime()
+    const currDate = new Date()
     const insertQuery =
         `INSERT INTO ${ENTRY_TABLE}(category, amount, description, insertDate, updateDate) VALUES
         (${entry.category}, ${entry.amount}, '${entry.description}', '${currDate}', '${currDate}');`;
@@ -120,8 +125,7 @@ export const saveEntryItem = async(db, entry) => {
 };
 
 export const updateEntryItem = async (db, entry) => {
-    const currDate = new Date().getTime()
-    console.log('UPDATE FUNCTION')
+    const currDate = new Date()
     console.log(entry)
     const updateQuery =
         `UPDATE ${ENTRY_TABLE} SET 

@@ -9,6 +9,7 @@ import BalancePanelChart from './BalancePanelChart/BalancePanelChart';
 import LinearGradient from 'react-native-linear-gradient';
 import Colors from '../../styles/colors';
 import Icon from '@react-native-vector-icons/material-icons';
+import { Text } from 'react-native-svg';
 
 const BalancePanel = () => {
 
@@ -48,11 +49,14 @@ const BalancePanel = () => {
     );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    flexShrink: 1,
     marginBottom: -23,
   },
   panel:{
+    flex: 1,
     paddingVertical: 10
   },
   button:{
@@ -66,7 +70,8 @@ const styles = StyleSheet.create({
     marginTop: -25,
     marginRight: 10,
     shadowColor: Colors.black,
-    width: 50,    
+    width: 50,
+    zIndex:100000000,    
   },
 });
 

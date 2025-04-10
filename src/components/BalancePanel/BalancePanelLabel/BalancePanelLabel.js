@@ -1,20 +1,31 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import BalanceLabel from '../../BalanceLabel/BalanceLabel';
 import Colors from '../../../styles/colors';
 
 const BalancePanelLabel = ({currBalance}) => {
     return(
-        <View style={styles.container}>
-            <BalanceLabel currBalance={currBalance}/>
-        </View>
+        <View style={styles.balanceContainer}>
+              <Text style={styles.balanceLabel}>Current balance</Text>
+              <Text style={styles.balanceValue}>{currBalance}</Text>
+            </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
+    balanceContainer:{
+    flex: 1,
+    alignItems: 'center'
+  },
+    balanceLabel: {
+        fontSize:14,
+        padding: 10,
+        color: Colors.white,
     },
+    balanceValue: {
+        fontSize:36,
+        color: Colors.white,
+    }
 });
 
 export default BalancePanelLabel;
