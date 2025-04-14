@@ -12,12 +12,6 @@ const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
   const bulletLineHeight = isLastItem ? 30 : 50;
   const showBulletLine = !(isFirstItem && isLastItem);
 
-  const getDate = (timestamp) => {
-    return new Date(timestamp);
-  }
-
-  console.log(entry)
-
   return(
     <View>
       <TouchableOpacity
@@ -39,7 +33,7 @@ const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
 
             <View style={styles.secondaryItemContainer}>
               <Icon name='access-time' style={styles.secondaryItemValueIcon} />        
-              <Text style={styles.secondaryItemValue}>{getDate(entry.updateDate).toString()}</Text>
+              <Text style={styles.secondaryItemValue}>{entry.date}</Text>
             </View>
 
             {entry.address &&

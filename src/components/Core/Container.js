@@ -4,14 +4,14 @@ import Colors from "../../styles/colors";
 import { Text } from "@react-navigation/elements";
 import Icon from "@react-native-vector-icons/material-icons";
 
-const Container = ({title, actionLabelText, actionButtonText, onPressActionButton, children}) => {
+const Container = ({title, actionLabelText = '', actionButtonText, onPressActionButton, showMore, children}) => {
     return(
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
             {children}
             <View style={styles.actionsContainer}>
                 <Text style={styles.actionLabel}>{actionLabelText}</Text>
-                {onPressActionButton &&
+                {onPressActionButton && showMore &&
                     <TouchableOpacity style={styles.actionButton}
                         onPress={() => {onPressActionButton && onPressActionButton()}}>
                         <Icon name='insert-chart' style={styles.actionButtonIcon}/>
@@ -26,14 +26,14 @@ const Container = ({title, actionLabelText, actionButtonText, onPressActionButto
 
 const styles = StyleSheet.create({
     container:{
-        //flex: 2,
         backgroundColor: Colors.asphalt,
         borderColor: '#87c5fb45',
         borderStyle: 'solid',
         borderWidth: 1,
         borderRadius: 5,
         margin: 5,
-        padding: 8
+        padding: 8,
+        maxHeight:400
     },
     title: {
         color: Colors.white,

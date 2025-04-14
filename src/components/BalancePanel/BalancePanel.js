@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexShrink: 1,
     marginBottom: -23,
+    maxHeight:160
   },
   panel:{
     flex: 1,

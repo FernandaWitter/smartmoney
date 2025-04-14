@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 import { connectToDatabase } from '../../database/DBConfig';
 import { getBalance } from '../../database/services/entryService';
 
 import Colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import Icon from '@react-native-vector-icons/material-icons';
 
 const BalanceLabel = () => {
-
+    const navigation = useNavigation();
     const [balance, setBalance] = useState()
 
     const loadData = useCallback(async () => {
@@ -29,11 +31,21 @@ const BalanceLabel = () => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.label}>Current balance</Text>
+            <View style={styles.header}>
+              <TouchableOpacity style={styles.button} onPress={() => {navigation.goBack()}}>
+                <Icon
+                  name='arrow-left'
+                  size={50}
+                  color={Colors.white}
+                />
+              </TouchableOpacity>
+              <View style={styles.labelWrapper}>
+                <Text style={styles.label}>Current balance</Text>
+              </View>
+            </View>
             <LinearGradient colors={[Colors.violet, Colors.blue]} style={styles.panel}>
                 <Text style={styles.value}>{balance}</Text>
             </LinearGradient>
-
         </View>
     );
 };
@@ -41,16 +53,19 @@ const BalanceLabel = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         margin: 10,
+        maxHeight:150,
+        minHeight: 150
     },
     label: {
-        fontSize:18,
-        padding: 20,
+        fontSize:26,
+        padding: 10,
         color: Colors.white,
+        flexGrow: 0,
+        paddingRight: 85,
     },
     value: {
-        fontSize:36,
+        fontSize:30,
         color: Colors.white,
     },
     panel:{
@@ -58,6 +73,26 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 30,
         marginVertical: 10,
+        alignItems: 'center'
+    },
+    header:{
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
+    button:{
+      backgroundColor: Colors.background,
+      height:50,
+      width: 50,
+      paddingTop: 5,
+      flexGrow: 0,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start'
+    },
+    labelWrapper:{
+      alignContent:'center',
+      alignItems: 'center',
+      alignSelf:'center'
     }
 });
 

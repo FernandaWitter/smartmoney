@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
     balanceLabel: {
-        fontSize:14,
+        fontSize:24,
         padding: 10,
         color: Colors.white,
+        marginTop:10
     },
     balanceValue: {
         fontSize:36,

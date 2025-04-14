@@ -6,43 +6,27 @@ import { useIsFocused } from '@react-navigation/native';
 
 import EntryListItem from './EntryListItem/EntryListItem';
 import Container from '../Core/Container';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 
-const EntryList = ({days = 7, onPressActionButton}) => {
-    const [entries, setEntries] = useState()
-
-     const loadData = useCallback(async () => {
-        try {
-          const db = await connectToDatabase()
-
-          const entries = await getLatestEntries(db)
-          if(entries.length > 0){setEntries(entries)}
-        
-        } catch (error) {
-          console.error(error)
-        }
-      }, [])
-    
-      const isFocused = useIsFocused();
-      
-      useEffect(() => {
-        loadData();
-      }, [isFocused])
+const EntryList = ({entryList, showMore}) => {
 
     return(
 		<Container title='Latest transactions'
-			actionLabelText={`Last ${days} days`}
 			actionButtonText="See all transactions"
-			onPressActionButton={() => {}}>
+			onPressActionButton={() => {}}
+			showMore={showMore}>
+			<View>
 				  <FlatList
-					data={entries}
+					data={entryList}
+          scrollEnabled={false}
 					renderItem={({item, index}) => (
 						<EntryListItem entry={item}
 							isFirstItem={index===0}
-							isLastItem={index === entries.length-1}
+							isLastItem={index === entryList.length-1}
 						/>
 					)}
 				/>
+				</View>
 		</Container>
     );
 };

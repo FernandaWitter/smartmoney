@@ -19,7 +19,9 @@ const MoneyInput = ({value, onChangeValue, label}) => {
                 }}
                 value={value}
                 includeRawValueInChangeText={true}
-                onChangeText={(maskedValue, rawValue) => {onChangeValue(rawValue)}}
+                onChangeText={(maskedValue, rawValue) => {
+                    console.log('rawValue: ', rawValue)
+                    onChangeValue(rawValue)}}
             />
         </View>
     )

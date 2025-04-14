@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {View, StyleSheet} from 'react-native';
 
 import EntrySummaryChart from './EntrySummaryChart/EntrySummaryChart';
 import EntrySummaryList from './EntrySummaryList/EntrySummaryList';
 import { connectToDatabase } from '../../database/DBConfig';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { getCategories } from '../../database/services/entryService';
+import { getCategorySummary } from '../../database/services/entryService';
 import Container from '../Core/Container';
 
-const EntrySummary = ({days = 7, onPressActionButton}) => {
+const EntrySummary = ({days = 7}) => {
 
     const [categories, setCategories] = useState()
 	const navigation = useNavigation();
@@ -17,7 +16,7 @@ const EntrySummary = ({days = 7, onPressActionButton}) => {
         try {
           const db = await connectToDatabase()
     
-          const cat = await getCategories(db)
+          const cat = await getCategorySummary(db)
           if(cat.length > 0){setCategories(cat)}
     
         } catch (error) {
@@ -32,24 +31,15 @@ const EntrySummary = ({days = 7, onPressActionButton}) => {
       }, [isFocused])
 
     return(
-        //<View style={styles.container}>
 			<Container title="Categories"
 				actionLabelText={`Last ${days} days`}
 				actionButtonText="More"
+        showMore={true}
 				onPressActionButton={() => {navigation.navigate('Report')}}>
 				<EntrySummaryChart/>
         	    <EntrySummaryList summary={categories}/>
     	    </Container>
-	    //</View>
-
     );
 };
-
-const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        margin: 7,
-    }
-});
 
 export default EntrySummary;
