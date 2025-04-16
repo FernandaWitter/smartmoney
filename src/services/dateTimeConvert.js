@@ -1,5 +1,5 @@
 export const convertIntoDateObj = (date) => {
-    const dateArray = (date).replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, " ").split(" ");
+    const dateArray = date.toString().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, " ").split(" ");
     return new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
 }
 

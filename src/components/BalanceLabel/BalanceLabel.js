@@ -8,26 +8,11 @@ import Colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import Icon from '@react-native-vector-icons/material-icons';
+import useBalance from '../../hooks/useBalance';
 
 const BalanceLabel = () => {
     const navigation = useNavigation();
-    const [balance, setBalance] = useState()
-
-    const loadData = useCallback(async () => {
-      try {
-        const db = await connectToDatabase()
-        
-        const balance = await getBalance(db)
-          if (balance != null && balance != undefined){ setBalance(balance)}
-    
-        } catch (error) {
-          console.error(error)
-        }
-      }, [])
-      
-      useEffect(() => {
-        loadData()
-      }, [loadData])
+    const [balance] = useBalance();
 
     return(
         <View style={styles.container}>

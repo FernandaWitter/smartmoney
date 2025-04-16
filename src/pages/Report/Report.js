@@ -21,6 +21,8 @@ const Report = () => {
          const db = await connectToDatabase()
 
          const entries = await getEntries(db, days)
+         console.log('ENTRIES IN REPORT')
+         console.log(entries)
          if(entries.length > 0){setEntries(entries)}
        
        } catch (error) {
@@ -43,6 +45,8 @@ const Report = () => {
     }
 
     const onChangeCategory = async item => {
+      console.log('CAT IN FILTER')
+      console.log(item)
       const db = await connectToDatabase()
       const entries = await getEntries(db, days, item.id)
  

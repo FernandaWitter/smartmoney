@@ -13,7 +13,7 @@ const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
   const showBulletLine = !(isFirstItem && isLastItem);
 
   return(
-    <View>
+    <View >
       <TouchableOpacity
         onPress={() =>{
           navigation.navigate('NewEntry', {entryID: entry.id})

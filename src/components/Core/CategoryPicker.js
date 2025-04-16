@@ -1,33 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from '../../styles/colors';
-import ActionFooter, {PrimaryActionButton} from './ActionFooter';
+import ActionFooter, {PrimaryActionButton, SecondaryActionButton} from './ActionFooter';
 import { connectToDatabase } from '../../database/DBConfig';
 import { getCategories } from '../../database/services/entryService';
 import { useIsFocused } from '@react-navigation/native';
+import useCategories from '../../hooks/useCategories';
 
-const CategoryPicker = ({modalVisible, onChangeCategory, onClose, selectAll}) => {
-    const [categoryList, setCategoryList] = useState([])
-
-    const loadData = useCallback(async () => {
-        try {
-            const db = await connectToDatabase()
-            let catList = await getCategories(db)
-            if (selectAll) {
-                catList.splice(0, 0, {id: 0, color: Colors.white, description:'All categories'})
-            }
-            setCategoryList(catList)
-        } catch (error) {
-            console.error(error)
-        }
-    }, [])
-            
-    const isFocused = useIsFocused();
-                            
-    useEffect(() => {
-        loadData()
-    }, [isFocused])
-                
+const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}) => {
+    const [categoryList] = useCategories()
 
     return(
        
@@ -52,7 +33,11 @@ const CategoryPicker = ({modalVisible, onChangeCategory, onClose, selectAll}) =>
             </View>
             <View style={styles.footer}>
                 <ActionFooter>
+                {onClearFilter &&
+                        <SecondaryActionButton title={'Clear filter'} onPress={onClearFilter}/>
+                    }
                     <PrimaryActionButton title={'Close'} onPress={onClose}/>
+                    
                 </ActionFooter>
             </View>
         </Modal>

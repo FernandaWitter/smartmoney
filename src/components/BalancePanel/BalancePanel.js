@@ -10,29 +10,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import Colors from '../../styles/colors';
 import Icon from '@react-native-vector-icons/material-icons';
 import { Text } from 'react-native-svg';
+import useBalance from '../../hooks/useBalance';
 
 const BalancePanel = () => {
-
       const navigation = useNavigation();
-      const [balance, setBalance] = useState()
-      
-      const loadData = useCallback(async () => {
-        try {
-          const db = await connectToDatabase()
-   
-          const balance = await getBalance(db)
-          if (balance != null && balance != undefined){ setBalance(balance)}
-    
-        } catch (error) {
-          console.error(error)
-        }
-      }, [])
-    
-      const isFocused = useIsFocused();
-      
-      useEffect(() => {
-        loadData();
-      }, [isFocused])
+      const [balance] = useBalance();
 
     return(
       <View style={styles.container}>

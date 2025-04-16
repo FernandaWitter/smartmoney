@@ -1,5 +1,5 @@
 import Icon from '@react-native-vector-icons/material-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Colors from '../../styles/colors';
@@ -8,6 +8,11 @@ import DatePicker from 'react-native-date-picker';
 const EntryDateTimePicker = ({value, onChange}) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+        console.log('time on datetimepicker')
+        console.log(value)
+    })
     
     const onChangeValue = date => {
         onChange(date);

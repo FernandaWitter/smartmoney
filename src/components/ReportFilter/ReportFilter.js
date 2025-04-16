@@ -26,6 +26,10 @@ const ReportFilter = ({days, onChangeDays, category, onChangeCategory}) => {
         setCategoryModalVisible(false)
     }
 
+    const onClearFilter = () =>{
+        const item = {id: 0, color: Colors.white, description:'All categories'}
+        onCatPress(item)
+    }
     return(
         <View style={styles.container}>
             <TouchableOpacity style={styles.filterButton} onPress={() => { setRelativeDaysModalVisible(true)}}>
@@ -44,7 +48,7 @@ const ReportFilter = ({days, onChangeDays, category, onChangeCategory}) => {
                         modalVisible={categoryModalVisible}
                         onChangeCategory={onCatPress}
                         onClose={() => setCategoryModalVisible(false)}
-                        selectAll={true} />
+                        onClearFilter={onClearFilter} />
             </TouchableOpacity>
         </View>
     );

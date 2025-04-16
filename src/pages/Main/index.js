@@ -7,32 +7,13 @@ import EntryList from '../../components/EntryList/EntryList';
 import { clearDatabase, connectToDatabase, createTables } from '../../database/DBConfig';
 import { useIsFocused } from '@react-navigation/native';
 import Colors from '../../styles/colors';
-import { getLatestEntries } from '../../database/services/entryService';
+import { getEntries, getLatestEntries } from '../../database/services/entryService';
+import useEntries from '../../hooks/useEntries';
 
 const Main = () => {    
-  const [entries, setEntries] = useState()
+  const [entries] = useEntries('','',5)
 
-  const loadData = useCallback(async () => {
-    try {
-      const db = await connectToDatabase()
-      //await clearDatabase(db)
-      await createTables(db)
-
-      const entries = await getLatestEntries(db)
-      if(entries.length > 0){setEntries(entries)}
-
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
-
-  const isFocused = useIsFocused();
-  
-  useEffect(() => {
-    loadData();
-  }, [isFocused])
-
-    return (
+      return (
         <View style={styles.container}>
             <BalancePanel/>
             <EntrySummary/>

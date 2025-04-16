@@ -12,47 +12,37 @@ import EntryDeleteAction from './EntryDeleteAction';
 import GPSAction from './GPSAction';
 import CameraAction from './CameraAction';
 import ActionFooter, { PrimaryActionButton } from '../Core/ActionFooter';
+import useSingleEntry from '../../hooks/useSingleEntry';
+import useCategories from '../../hooks/useCategories';
+import moment from 'moment';
 
 const NewEntryForm = ({route}) => {
     const navigation = useNavigation();
     const entryID = route?.route?.params || {"entryID": 0}
 
-    const [amount, setAmount] = useState();
-    const [description, setDescription] = useState('');
-    const [categoryId, setCategoryId] = useState()
-    const [date, setDate] = useState(new Date())
-    const [categoryText, setCategoryText] = useState();
+    const [currEntry, setCurrEntry] = useState({
+        id: '',
+        amount: '',
+        date: '',
+        category: '',
+        categoryText:''
+    })
+
+    const date = useState(new Date())
     const [modalVisible, setModalVisible] = useState(false);
+    const [entry, saveEntry, updateEntry, deleteEntry] = useSingleEntry(entryID)
+    const [, getCategoryFilteredId] = useCategories()
 
     const loadData = useCallback(async () => {
-        try {
-            const db = await connectToDatabase()
-            
-            if (entryID.entryID > 0){ 
-                const currEntry = await getEntryByID(db, entryID.entryID)
-                if (currEntry != null && currEntry != undefined){ 
-                    if(currEntry.category > 0){
-                        const cat = await getCategoryById(db, currEntry.category)
-                        setCategoryText(cat.description)
-                        console.log('setting cat: ', cat.description)
-                    }
-                    setAmount(parseFloat(currEntry.amount))
-                    setDescription(currEntry.description)
-                    setCategoryId(`${currEntry.category}`)
-                    setDate(convertIntoDateObj(currEntry.date))
-
-                }
-            }          
-        } catch (error) {
-              console.error(error)
-        }
+        console.log('entry in new entry form')
+        console.log(entry)
     }, [])
 
       const isFocused = useIsFocused();
           
     useEffect(() => {
         loadData()
-    }, [isFocused])
+    }, [isFocused, entry])
 
 
     //TODO: Validate input data
@@ -69,19 +59,24 @@ const NewEntryForm = ({route}) => {
 
     const onSave = async () => {
         if(isValid){
-            const db = await connectToDatabase()
-
-            const data = {
+            /*const data = {
                 "id": entryID.entryID,
                 "category": parseInt(categoryId),
                 "amount": parseFloat(amount),
                 "description": description.replace("'", "''"),
                 "date": convertFromDateObj(date)
+            }*/
+            const data = {
+                "id": entry.id,
+                "category": parseInt(currEntry.category|| entry.category),
+                "amount": parseFloat(currEntry.amount || entry.amount),
+                "description": currEntry.description ? currEntry.description.replace("'", "''") : entry.description,
+                "date": currEntry.date ? convertFromDateObj(currEntry.date) : entry.date
             }
             if (entryID.entryID > 0){
-                console.log(await updateEntryItem(db, data))
+                console.log(await updateEntry(data))
             } else {
-                console.log(await saveEntryItem(db, data));
+                console.log(await saveEntry(data));
             }
             onClose();
         } else {
@@ -91,29 +86,35 @@ const NewEntryForm = ({route}) => {
     };
     
     const onDelete = async () => {
-        const db = await connectToDatabase()
         if (entryID.entryID > 0){ 
-            await deleteEntry(db, entryID.entryID)
+            await deleteEntry(entryID.entryID)
             onClose();
         }
     };
 
     const onSelectCategory = (item) => {
         if(item.id > 0){
-            setCategoryId(item.id)
-            setCategoryText(item.description)    
+            setCurrEntry(() => ({ ...currEntry, category: item.id, categoryText: item.description }))
         }
         setModalVisible(false)
+    }
+
+    const onSetAmount = (val) => {
+        setCurrEntry(() => ({ ...currEntry, amount: val}))
+    }
+
+    const onSetDate = (date) => {
+        setCurrEntry(() => ({ ...currEntry, date: date}))
     }
 
     return(
         <View style={styles.container}>
             <View>
-            {((categoryText && entryID.entryID) || (entryID.entryID == 0)) &&
+            {((entry.category && entryID.entryID) || (entryID.entryID == 0)) &&
                 <View>
                     <Text style={styles.pickerLabel}>Category</Text>
                         <TouchableOpacity style={styles.pickerButton} onPress={() => {setModalVisible(true)}}>            
-                            <Text style={styles.pickerButtonText}>{categoryText}</Text>
+                            <Text style={styles.pickerButtonText}>{currEntry.categoryText || entry.categoryText}</Text>
                         </TouchableOpacity>
                     <CategoryPicker 
                         modalVisible={modalVisible}
@@ -124,20 +125,22 @@ const NewEntryForm = ({route}) => {
                 </View>
             }
                 <MoneyInput
-                    value={amount}
-                    onChangeValue={setAmount}
+                    value={entry.amount}
+                    onChangeValue={onSetAmount}
                     label='Amount'
                 />    
                 <View>
                     <Text style={styles.label}>Description</Text>
                     <TextInput 
-                        style={styles.input} value={description}
-                        onChangeText={(text) => {setDescription(text)}}
+                        style={styles.input} value={entry.description}
+                        onChangeText={(text) => { setCurrEntry(() => ({ ...currEntry, description: text }))}}
                         multiline={true}
                         />
                 </View>
                 <View style={styles.formActionContainer}>
-                    <DateTimePicker value={date} onChange={setDate}/>
+                    {((entry.date && entryID.entryID) || (entryID.entryID == 0)) &&
+                    <DateTimePicker value={entryID.entryID == 0 ? moment(entry.date).toDate() : new Date()} onChange={onSetDate}/>
+                    }
                     <GPSAction/>
                     <CameraAction/>
                 </View>

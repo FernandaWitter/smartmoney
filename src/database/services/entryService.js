@@ -1,12 +1,13 @@
 import moment from 'moment'
 import 'moment/locale/br'
+import { convertIntoDateObj } from '../../services/dateTimeConvert';
 moment.locale('pt-br')
 
 const CATEGORY_TABLE = 'categories';
 const ENTRY_TABLE = 'entries'
 
 
-export const getBalance = async (db) => {
+export const getCurrentBalance = async (db) => {
     const entriesTotal = await db.executeSql(
         `SELECT sum(CASE WHEN category = 1 THEN amount ELSE 0 END) as credit, sum(CASE WHEN category !=1 then amount else 0 END) as debit FROM entries` 
     )
@@ -89,7 +90,7 @@ export const getCategoryById = async (db, id) => {
     }
 }
 
-export const getEntries = async(db, days, category) => {
+export const getEntries = async(db, days, category, limit) => {
     const date = moment().subtract(days, 'days').format('YYYY-MM-DD')
     console.log('cat: ', category)
     console.log('filter day: ', date)
@@ -97,11 +98,18 @@ export const getEntries = async(db, days, category) => {
     try {
         let query = `SELECT ${ENTRY_TABLE}.id, category, amount, description, color, date FROM ${ENTRY_TABLE} 
                 JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id 
-                WHERE strftime('%s', date) >=  strftime('%s', '${date}')`
+                WHERE 1=1`
+        if (days > 0){
+            query = query + ` AND strftime('%s', date) >=  strftime('%s', '${date}')`
+        }
         if (category > 0) {
             query = query + ` AND category = ${category} `
         }
         query = query + ` ORDER BY date DESC`
+        if (limit > 0){
+            query = query + ` LIMIT ${limit} `
+
+        }
         console.log('query')
         console.log(query)
 
@@ -128,38 +136,15 @@ export const getEntries = async(db, days, category) => {
     }
 };
 
-export const getLatestEntries = async(db) => {
-    try {
-        const recoveredEntries = await db.executeSql(
-            `SELECT ${ENTRY_TABLE}.id, category, amount, description, color, date FROM ${ENTRY_TABLE} 
-                JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id
-                ORDER BY date DESC LIMIT 5`
-        )
-        const shownEntries = []
-        recoveredEntries?.forEach((result) => {
-            for (let index = 0; index < result.rows.length; index++) {
-                shownEntries[index] = {
-                    "id": result.rows.item(index).id,
-                    "category": result.rows.item(index).category,
-                    "amount": result.rows.item(index).amount,
-                    "description": result.rows.item(index).description,
-                    "color": result.rows.item(index).color,
-                    "date": result.rows.item(index).date,
-                }
-            }
-        })
-        return shownEntries;
-    } catch (error) {
-        console.error(error);
-        throw Error('Failed to get latest entries.');
-    }
-};
-
 export const getEntryByID = async (db, id) => {
     try {
-        const recoveredEntry = await db.executeSql(
-            `SELECT amount, category, description, date FROM ${ENTRY_TABLE} WHERE id = ${id}`
-        )
+        const query =`SELECT amount, category, description, date, ${CATEGORY_TABLE}.name as categoryText 
+            FROM ${ENTRY_TABLE} JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id
+            WHERE ${ENTRY_TABLE}.id = ${id}`
+            console.log('query')
+            console.log(query)
+    
+            const recoveredEntry = await db.executeSql(query)
         let entry = {}
         recoveredEntry?.forEach((result) => {
             for (let index = 0; index < result.rows.length; index++) {
@@ -168,9 +153,11 @@ export const getEntryByID = async (db, id) => {
                     "category": result.rows.item(index).category,
                     "amount": result.rows.item(index).amount,
                     "description": result.rows.item(index).description,
-                    "date": result.rows.item(index).date
+                    "date": result.rows.item(index).date,
+                    "categoryText": result.rows.item(index).categoryText
                 }
             }
+            return entry
         })
         return entry;
     } catch (error) {
@@ -201,7 +188,7 @@ export const updateEntryItem = async (db, entry) => {
     )
 }
 
-export const deleteEntry = async (db, id) => {
+export const deleteEntryItem = async (db, id) => {
     const deleteQuery = `DELETE FROM ${ENTRY_TABLE} WHERE id = ${id}`;
     return db.executeSql(deleteQuery, error => {console.log(error)});
 };
