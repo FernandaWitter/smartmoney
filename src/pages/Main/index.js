@@ -11,9 +11,24 @@ import { getEntries, getLatestEntries } from '../../database/services/entryServi
 import useEntries from '../../hooks/useEntries';
 
 const Main = () => {    
-  const [entries] = useEntries('','',5)
+    const [entries] = useEntries('','',5)
+    const loadData = useCallback(async () => {
 
-      return (
+    try {
+        const db = await connectToDatabase()
+        //await clearDatabase(db)
+        await createTables(db)
+    } catch (error) {
+        console.error(error)
+    }}, [])
+   
+    const isFocused = useIsFocused();
+     
+    useEffect(() => {
+        loadData();
+    }, [isFocused])
+
+    return (
         <View style={styles.container}>
             <BalancePanel/>
             <EntrySummary/>

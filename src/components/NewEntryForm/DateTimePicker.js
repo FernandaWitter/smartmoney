@@ -6,22 +6,12 @@ import Colors from '../../styles/colors';
 import DatePicker from 'react-native-date-picker';
 
 const EntryDateTimePicker = ({value, onChange}) => {
-    const [modalVisible, setModalVisible] = useState(false)
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
         console.log('time on datetimepicker')
-        console.log(value)
+        console.log(value.toString())
     })
-    
-    const onChangeValue = date => {
-        onChange(date);
-        onCancel();
-    };
-
-    const onCancel = () => {
-        setModalVisible(false);
-    };
     
     return(
         <View>

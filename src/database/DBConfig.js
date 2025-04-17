@@ -48,6 +48,7 @@ export const createTables = async(db) => {
     (6, "Others", '${Colors.blue}', false, false, 6);`
 
     try {
+        console.log('creating tables')
         await db.executeSql(catQuery, error => { console.log(error) })
         await db.executeSql(entriesQuery, error => { console.log(error) })
         await db.executeSql(insertCatQuery, error => { console.log(error) })

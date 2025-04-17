@@ -13,12 +13,8 @@ export const getEntryList = async(days, category, limit) => {
 
 export const getEntryFilterID = async(id) => {
     try {
-        console.log('id in getEntryFilteredID')
-        console.log(id)
         const db = await connectToDatabase()
         const entry = await getEntryByID(db, id)
-        console.log('entry in getEntryFilteredID')
-        console.log(entry)
         return entry
     } catch (error) {
         console.error(error)
@@ -36,6 +32,8 @@ export const saveEntry = async(data) => {
 
 export const updateEntry = async(data) => {
     try {
+        console.log('data at updateEntry')
+        console.log(data)
         const db = await connectToDatabase()
         return await updateEntryItem(db, data)
     } catch (error) {

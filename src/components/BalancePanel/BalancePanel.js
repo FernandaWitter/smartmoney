@@ -1,15 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { connectToDatabase } from '../../database/DBConfig';
-import { getBalance } from '../../database/services/entryService';
 
 import BalancePanelLabel from './BalancePanelLabel/BalancePanelLabel';
 import BalancePanelChart from './BalancePanelChart/BalancePanelChart';
 import LinearGradient from 'react-native-linear-gradient';
 import Colors from '../../styles/colors';
 import Icon from '@react-native-vector-icons/material-icons';
-import { Text } from 'react-native-svg';
 import useBalance from '../../hooks/useBalance';
 
 const BalancePanel = () => {
@@ -36,11 +33,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexShrink: 1,
     marginBottom: -23,
-    maxHeight:160
+    maxHeight:180,
   },
   panel:{
     flex: 1,
-    paddingVertical: 10
   },
   button:{
     alignItems: 'center',

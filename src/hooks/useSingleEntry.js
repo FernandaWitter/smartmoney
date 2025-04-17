@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { deleteEntry, getEntryFilterID, saveEntry, updateEntry } from "../services/Entries";
-import { getEntryByID } from "../database/services/entryService";
-import { connectToDatabase } from "../database/DBConfig";
 
 const useSingleEntry = (id) => {
     const [entry, setEntry] = useState({})

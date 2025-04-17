@@ -1,7 +1,7 @@
-import { Button } from '@react-navigation/elements';
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import Colors from '../../../styles/colors';
 import Svg, { Circle, Rect } from 'react-native-svg';
 import Icon from '@react-native-vector-icons/material-icons';

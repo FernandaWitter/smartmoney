@@ -1,23 +1,28 @@
 import moment from 'moment'
 import 'moment/locale/br'
-import { convertIntoDateObj } from '../../services/dateTimeConvert';
 moment.locale('pt-br')
 
 const CATEGORY_TABLE = 'categories';
 const ENTRY_TABLE = 'entries'
 
 
-export const getCurrentBalance = async (db) => {
-    const entriesTotal = await db.executeSql(
-        `SELECT sum(CASE WHEN category = 1 THEN amount ELSE 0 END) as credit, sum(CASE WHEN category !=1 then amount else 0 END) as debit FROM entries` 
-    )
+export const getCurrentBalance = async (db, days) => {
+    let query = 
+    `SELECT sum(amount) AS balance FROM entries`
+    if (days){
+        const date = moment().subtract(days, 'days').format('YYYY-MM-DD')
+        query = query + ` WHERE  strftime('%s', date) <  strftime('%s', '${date}')`
+    }
+    console.log('query: ', query)
+    const entriesTotal = await db.executeSql(query)
 
     let balance = 0
         entriesTotal?.forEach((result) => {
             for (let index = 0; index < result.rows.length; index++) {
-                balance = result.rows.item(index).credit - result.rows.item(index).debit
-                }
+                balance = parseFloat(result.rows.item(index).balance)
+            }
         })
+        console.log(balance)
     return balance.toFixed(2);
 }
 
@@ -92,15 +97,14 @@ export const getCategoryById = async (db, id) => {
 
 export const getEntries = async(db, days, category, limit) => {
     const date = moment().subtract(days, 'days').format('YYYY-MM-DD')
-    console.log('cat: ', category)
-    console.log('filter day: ', date)
+    console.log(db)
 
     try {
         let query = `SELECT ${ENTRY_TABLE}.id, category, amount, description, color, date FROM ${ENTRY_TABLE} 
                 JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id 
                 WHERE 1=1`
         if (days > 0){
-            query = query + ` AND strftime('%s', date) >=  strftime('%s', '${date}')`
+            query = query + ` AND strftime('%s', date) >= strftime('%s', '${date}')`
         }
         if (category > 0) {
             query = query + ` AND category = ${category} `
@@ -108,23 +112,41 @@ export const getEntries = async(db, days, category, limit) => {
         query = query + ` ORDER BY date DESC`
         if (limit > 0){
             query = query + ` LIMIT ${limit} `
-
         }
-        console.log('query')
-        console.log(query)
 
         let recoveredEntries = await db.executeSql(query)
-        console.log('recoveredEntries')
-        console.log(recoveredEntries)
+        
         const shownEntries = []
         recoveredEntries?.forEach((result) => {
             for (let index = 0; index < result.rows.length; index++) {
                 shownEntries[index] = {
                     "id": result.rows.item(index).id,
                     "category": result.rows.item(index).category,
-                    "amount": result.rows.item(index).amount,
+                    "amount": Math.abs(result.rows.item(index).amount),
                     "description": result.rows.item(index).description,
                     "color": result.rows.item(index).color,
+                    "date": result.rows.item(index).date,
+                }
+            }
+        })
+        return shownEntries;
+    } catch (error) {
+        console.error(error);
+        throw Error('Failed to get entries.');
+    }
+};export const getEntriesForTimePeriod = async(db, days) => {
+    const date = moment().subtract(days, 'days').format('YYYY-MM-DD')
+    console.log(db)
+
+    try {
+        let query = `SELECT amount, date FROM entries WHERE 1=1 AND strftime('%s', date) >= strftime('%s', '${date}') ORDER BY date DESC`
+        let recoveredEntries = await db.executeSql(query)
+        
+        const shownEntries = []
+        recoveredEntries?.forEach((result) => {
+            for (let index = 0; index < result.rows.length; index++) {
+                shownEntries[index] = {
+                    "amount": result.rows.item(index).amount,
                     "date": result.rows.item(index).date,
                 }
             }
@@ -141,17 +163,14 @@ export const getEntryByID = async (db, id) => {
         const query =`SELECT amount, category, description, date, ${CATEGORY_TABLE}.name as categoryText 
             FROM ${ENTRY_TABLE} JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id
             WHERE ${ENTRY_TABLE}.id = ${id}`
-            console.log('query')
-            console.log(query)
-    
-            const recoveredEntry = await db.executeSql(query)
+        const recoveredEntry = await db.executeSql(query)
         let entry = {}
         recoveredEntry?.forEach((result) => {
             for (let index = 0; index < result.rows.length; index++) {
                 entry = {
                     "id": id,
                     "category": result.rows.item(index).category,
-                    "amount": result.rows.item(index).amount,
+                    "amount": Math.abs(result.rows.item(index).amount),
                     "description": result.rows.item(index).description,
                     "date": result.rows.item(index).date,
                     "categoryText": result.rows.item(index).categoryText
@@ -170,13 +189,10 @@ export const saveEntryItem = async(db, entry) => {
     const insertQuery =
         `INSERT INTO ${ENTRY_TABLE}(category, amount, description, date) VALUES
         (${entry.category}, ${entry.amount}, '${entry.description}', '${entry.date}');`;
-
-    console.log(insertQuery)
-        return db.executeSql(insertQuery, error => { console.log(error) });
+    return db.executeSql(insertQuery, error => { console.log(error) });
 };
 
 export const updateEntryItem = async (db, entry) => {
-    console.log(entry)
     const updateQuery =
         `UPDATE ${ENTRY_TABLE} SET 
             category = ${entry.category},

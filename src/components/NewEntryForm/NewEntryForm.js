@@ -1,52 +1,36 @@
-import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
-import {View,TextInput, Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import { connectToDatabase } from '../../database/DBConfig';
-import { deleteEntry, getCategories, getCategoryById, getEntryByID, getLatestEntries, saveEntryItem, updateEntryItem } from '../../database/services/entryService';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import {View,TextInput, StyleSheet, Text, TouchableOpacity} from 'react-native';
+
 import MoneyInput from '../Core/MoneyInput';
 import Colors from '../../styles/colors';
 import CategoryPicker from '../Core/CategoryPicker';
 import DateTimePicker from './DateTimePicker';
-import { convertFromDateObj, convertIntoDateObj } from '../../services/dateTimeConvert';
 import EntryDeleteAction from './EntryDeleteAction';
 import GPSAction from './GPSAction';
 import CameraAction from './CameraAction';
 import ActionFooter, { PrimaryActionButton } from '../Core/ActionFooter';
 import useSingleEntry from '../../hooks/useSingleEntry';
-import useCategories from '../../hooks/useCategories';
 import moment from 'moment';
 
 const NewEntryForm = ({route}) => {
     const navigation = useNavigation();
     const entryID = route?.route?.params || {"entryID": 0}
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [entry, saveEntry, updateEntry, deleteEntry] = useSingleEntry(entryID)
     const [currEntry, setCurrEntry] = useState({
         id: '',
         amount: '',
-        date: '',
+        date: new Date(),
         category: '',
-        categoryText:''
+        categoryText:'',
+        isDateChanged: false,
+        isDescriptionChanged: false
     })
-
-    const date = useState(new Date())
-    const [modalVisible, setModalVisible] = useState(false);
-    const [entry, saveEntry, updateEntry, deleteEntry] = useSingleEntry(entryID)
-    const [, getCategoryFilteredId] = useCategories()
-
-    const loadData = useCallback(async () => {
-        console.log('entry in new entry form')
-        console.log(entry)
-    }, [])
-
-      const isFocused = useIsFocused();
-          
-    useEffect(() => {
-        loadData()
-    }, [isFocused, entry])
-
 
     //TODO: Validate input data
     const isValid = () => {
+        console.log('isValid: ', parseFloat(amount))
         if(parseFloat(amount) != 0){
             return true;
         }
@@ -58,31 +42,27 @@ const NewEntryForm = ({route}) => {
     };
 
     const onSave = async () => {
+        let date = entry.date
+        if(!entry.date || currEntry.isDateChanged){
+            date = moment(currEntry.date).format('YYYY-MM-DD')
+        }
         if(isValid){
-            /*const data = {
-                "id": entryID.entryID,
-                "category": parseInt(categoryId),
-                "amount": parseFloat(amount),
-                "description": description.replace("'", "''"),
-                "date": convertFromDateObj(date)
-            }*/
+            const amountInformed = parseFloat(currEntry.amount || entry.amount)
+            const catSelected = parseInt(currEntry.category|| entry.category)
             const data = {
                 "id": entry.id,
-                "category": parseInt(currEntry.category|| entry.category),
-                "amount": parseFloat(currEntry.amount || entry.amount),
+                "category": catSelected,
+                "amount": catSelected == 1 ? amountInformed : amountInformed*(-1) ,
                 "description": currEntry.description ? currEntry.description.replace("'", "''") : entry.description,
-                "date": currEntry.date ? convertFromDateObj(currEntry.date) : entry.date
+                "date": date
             }
             if (entryID.entryID > 0){
-                console.log(await updateEntry(data))
+                await updateEntry(data)
             } else {
-                console.log(await saveEntry(data));
+                await saveEntry(data);
             }
             onClose();
-        } else {
-
-        }
-        
+        } else {}
     };
     
     const onDelete = async () => {
@@ -104,7 +84,8 @@ const NewEntryForm = ({route}) => {
     }
 
     const onSetDate = (date) => {
-        setCurrEntry(() => ({ ...currEntry, date: date}))
+        console.log('onSetDate: ', date.toString())
+        setCurrEntry(() => ({ ...currEntry, date: date, isDateChanged: true}))
     }
 
     return(
@@ -132,14 +113,14 @@ const NewEntryForm = ({route}) => {
                 <View>
                     <Text style={styles.label}>Description</Text>
                     <TextInput 
-                        style={styles.input} value={entry.description}
-                        onChangeText={(text) => { setCurrEntry(() => ({ ...currEntry, description: text }))}}
+                        style={styles.input} value={currEntry.isDescriptionChanged? currEntry.description : entry.description}
+                        onChangeText={(text) => { setCurrEntry(() => ({ ...currEntry, description: text, isDescriptionChanged: true }))}}
                         multiline={true}
                         />
                 </View>
                 <View style={styles.formActionContainer}>
                     {((entry.date && entryID.entryID) || (entryID.entryID == 0)) &&
-                    <DateTimePicker value={entryID.entryID == 0 ? moment(entry.date).toDate() : new Date()} onChange={onSetDate}/>
+                    <DateTimePicker value={entryID.entryID != 0 ? moment(entry.date).toDate() : currEntry.date} onChange={onSetDate}/>
                     }
                     <GPSAction/>
                     <CameraAction/>
