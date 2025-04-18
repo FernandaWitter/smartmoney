@@ -15,7 +15,7 @@ export const getBalance = async() => {
     }
 }
 
-export const getBalanceSummary = async (days) => {
+export const getBalanceSummary = async(days) => {
     try {
         const db = await connectToDatabase()
         const balanceUntilDate = parseFloat(await getCurrentBalance(db, days))
@@ -23,8 +23,10 @@ export const getBalanceSummary = async (days) => {
         entriesUntilDate = _(entriesUntilDate).groupBy(entry => moment(entry.date).format('YYYYMMDD'))
             .map(entry => _.sumBy(entry, 'amount'))
             .map((amount, index, collection) => {
-                return (balanceUntilDate + _.sum(_.slice(collection, 0, index+1)))
+                return (balanceUntilDate + _.sum(_.slice(collection, 0, index + 1)))
             })
+        console.log('entries until date')
+        console.log(JSON.stringify(entriesUntilDate))
         return entriesUntilDate
     } catch (error) {
         console.error(error)

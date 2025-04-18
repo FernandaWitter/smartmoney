@@ -48,24 +48,34 @@ export const getCategories = async(db) => {
     }
 };
 
-export const getCategorySummary = async(db) => {
+export const getCategorySummary = async(db, days, category) => {
+    const date = moment().subtract(days, 'days').format('YYYY-MM-DD')
     try {
-        const recoveredCategories = await db.executeSql(
-            `SELECT ${CATEGORY_TABLE}.name as description, SUM(amount) as amount, color
+        let query = `SELECT ${CATEGORY_TABLE}.name as description, SUM(amount) as amount, color
             FROM ${ENTRY_TABLE} 
             JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id 
-            GROUP BY category`
-        )
+            WHERE category != 1`
+        if(days > 0){
+            query = query + ` AND date >= '${date}'`
+        }
+        if(category > 0){
+            query = query + ` AND category = ${category}`
+        }
+        query = query + ' GROUP BY category ORDER BY amount'
+        console.log('query at getCategorySummary: ', query)
+        const recoveredCategories = await db.executeSql(query)
         const shownCategories = []
         recoveredCategories?.forEach((result) => {
             for (let index = 0; index < result.rows.length; index++) {
                 shownCategories[index] = {
                     "description": result.rows.item(index).description,
-                    "amount": result.rows.item(index).amount,
+                    "amount": Math.abs(result.rows.item(index).amount),
                     "color": result.rows.item(index).color
                 }
             }
         })
+        console.log('categories shown at getCategorySummary')
+        console.log(shownCategories)
         return shownCategories;
     } catch (error) {
         console.error(error);

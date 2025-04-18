@@ -15,8 +15,6 @@ const RelativeDaysModal = ({isVisible, onConfirm, onCancel}) =>{
                     data={relativeDays}
                     renderItem={(item) => {
                         return(<TouchableOpacity style={styles.modalItem} onPress={() => {
-                            console.log('item')
-                            console.log(item)
                             onConfirm(item.item)
                             }}>
                             <Text style={styles.modalInnerText}>{`${item.item} day(s)`}</Text>

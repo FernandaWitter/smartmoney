@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
-import {Picker} from '@react-native-picker/picker'
+
 import RelativeDaysModal from './RelativeDaysModal';
 import Icon from '@react-native-vector-icons/material-icons';
 import Colors from '../../styles/colors';
@@ -20,9 +20,7 @@ const ReportFilter = ({days, onChangeDays, category, onChangeCategory}) => {
     }
 
     const onCatPress = item => {
-        console.log('cat item')
-        console.log(item)
-        onChangeCategory(item)
+        onChangeCategory(item)        
         setCategoryModalVisible(false)
     }
 
@@ -56,7 +54,6 @@ const ReportFilter = ({days, onChangeDays, category, onChangeCategory}) => {
 
 const styles = StyleSheet.create({
     container: {
-        //flex: 1,
         flexDirection: 'row',
         backgroundColor: Colors.background,
         padding: 10,

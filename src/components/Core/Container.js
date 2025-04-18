@@ -4,22 +4,23 @@ import Colors from "../../styles/colors";
 import { Text } from "@react-navigation/elements";
 import Icon from "@react-native-vector-icons/material-icons";
 
-const Container = ({title, actionLabelText = '', actionButtonText, onPressActionButton, showMore, children}) => {
+const Container = ({title, actionLabelText = '', actionButtonText, onPressActionButton, showMore, footer = true, children}) => {
     return(
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
             {children}
-            <View style={styles.actionsContainer}>
-                <Text style={styles.actionLabel}>{actionLabelText}</Text>
-                {onPressActionButton && showMore &&
-                    <TouchableOpacity style={styles.actionButton}
-                        onPress={() => {onPressActionButton && onPressActionButton()}}>
-                        <Icon name='insert-chart' style={styles.actionButtonIcon}/>
-                        <Text style={styles.actionButtonText}>{actionButtonText}</Text>
-                    </TouchableOpacity>    
-                }           
-            </View>
-
+            {footer &&
+                <View style={styles.actionsContainer}>
+                    <Text style={styles.actionLabel}>{actionLabelText}</Text>
+                    {onPressActionButton && showMore &&
+                        <TouchableOpacity style={styles.actionButton}
+                            onPress={() => {onPressActionButton && onPressActionButton()}}>
+                            <Icon name='insert-chart' style={styles.actionButtonIcon}/>
+                            <Text style={styles.actionButtonText}>{actionButtonText}</Text>
+                        </TouchableOpacity>    
+                    }           
+                </View>
+            }
         </View>
     )
 };

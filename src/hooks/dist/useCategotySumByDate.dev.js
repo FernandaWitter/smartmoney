@@ -9,7 +9,7 @@ var _react = require("react");
 
 var _native = require("@react-navigation/native");
 
-var _Balance = require("../services/Balance");
+var _Categories = require("../services/Categories");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -27,31 +27,33 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var useBalanceSumByDate = function useBalanceSumByDate() {
+var useCategorySumByDate = function useCategorySumByDate() {
   var days = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 7;
+  var category = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
-      balanceSum = _useState2[0],
-      setBalanceSum = _useState2[1];
+      categorySum = _useState2[0],
+      setCategorySum = _useState2[1];
 
   var isFocused = (0, _native.useIsFocused)();
   (0, _react.useEffect)(function () {
-    function loadBalanceSumByDate() {
+    function loadCategorySumByDate() {
       var data;
-      return regeneratorRuntime.async(function loadBalanceSumByDate$(_context) {
+      return regeneratorRuntime.async(function loadCategorySumByDate$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return regeneratorRuntime.awrap((0, _Balance.getBalanceSummary)(days));
+              return regeneratorRuntime.awrap((0, _Categories.getCategorySumByDate)(days, category));
 
             case 2:
               data = _context.sent;
-              console.log('data: ', data);
-              setBalanceSum(_toConsumableArray(data));
+              console.log('data in useCategorySumByDate');
+              console.log(data);
+              setCategorySum(_toConsumableArray(data));
 
-            case 5:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -59,11 +61,11 @@ var useBalanceSumByDate = function useBalanceSumByDate() {
       });
     }
 
-    loadBalanceSumByDate();
-    console.log('balanceSum', balanceSum);
-  }, [days, isFocused]);
-  return [balanceSum];
+    loadCategorySumByDate();
+    console.log('categorySum', categorySum);
+  }, [isFocused, days, category]);
+  return [categorySum];
 };
 
-var _default = useBalanceSumByDate;
+var _default = useCategorySumByDate;
 exports["default"] = _default;

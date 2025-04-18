@@ -12,7 +12,7 @@ const useEntries = (days, category, limit) => {
             setEntries(entryList)
         }
         loadEntries();
-    }, [isFocused])
+    }, [isFocused, days, category])
     return [entries]
 }
 

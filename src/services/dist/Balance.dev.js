@@ -80,19 +80,21 @@ var getBalanceSummary = function getBalanceSummary(days) {
           }).map(function (amount, index, collection) {
             return balanceUntilDate + _lodash["default"].sum(_lodash["default"].slice(collection, 0, index + 1));
           });
+          console.log('entries until date');
+          console.log(JSON.stringify(entriesUntilDate));
           return _context2.abrupt("return", entriesUntilDate);
 
-        case 16:
-          _context2.prev = 16;
+        case 18:
+          _context2.prev = 18;
           _context2.t2 = _context2["catch"](0);
           console.error(_context2.t2);
 
-        case 19:
+        case 21:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[0, 16]]);
+  }, null, null, [[0, 18]]);
 };
 
 exports.getBalanceSummary = getBalanceSummary;

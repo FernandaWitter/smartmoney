@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Colors from '../../styles/colors';
-import ActionFooter, {PrimaryActionButton, SecondaryActionButton} from './ActionFooter';
-import { connectToDatabase } from '../../database/DBConfig';
-import { getCategories } from '../../database/services/entryService';
-import { useIsFocused } from '@react-navigation/native';
+
 import useCategories from '../../hooks/useCategories';
+import ActionFooter, {PrimaryActionButton, SecondaryActionButton} from './ActionFooter';
+import Colors from '../../styles/colors';
 
 const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}) => {
     const [categoryList] = useCategories()
@@ -21,7 +19,9 @@ const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}
                         return(
                         <TouchableOpacity style={styles.modalItem}
                             onPress={() => {
-                                onChangeCategory(item.item);
+                                console.log('category item')
+                                console.log(item.item)
+                                return onChangeCategory(item.item);
                             }}>
                             <Text style={[styles.modalItemText, {color: item.item.color}]}>
                                 {item.item.description}
