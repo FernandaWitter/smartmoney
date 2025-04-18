@@ -31,7 +31,7 @@ const ReportFilter = ({days, onChangeDays, category, onChangeCategory}) => {
     return(
         <View style={styles.container}>
             <TouchableOpacity style={styles.filterButton} onPress={() => { setRelativeDaysModalVisible(true)}}>
-                <Text style={styles.filterButtonText}>Last {days} days</Text>
+                <Text style={styles.filterButtonText}>Last {days} day(s)</Text>
                 <Icon name='keyboard-arrow-down'
                     size={20} color={Colors.champagneDark}/>
                 <RelativeDaysModal isVisible={relativeDaysModalVisible}

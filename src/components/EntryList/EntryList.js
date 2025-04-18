@@ -1,18 +1,20 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 import EntryListItem from './EntryListItem/EntryListItem';
 import Container from '../Core/Container';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
 import Colors from '../../styles/colors';
 
-const EntryList = ({entryList, showMore, isReport = false}) => {
-
+const EntryList = ({entryList, showMore, isReport = false, limitHeight, title}) => {
+	const navigation = useNavigation();
+	
     return(
-		<Container title='Latest transactions'
+		<Container title= {title ||'Latest transactions'}
 			actionButtonText="See all transactions"
-			onPressActionButton={() => {}}
 			showMore={showMore}
-			footer={false}>
+			limitHeight={limitHeight}
+			onPressActionButton={() => {navigation.navigate('History')}}>
 			<View style={[styles.container, isReport  ? {maxHeight: 250} : '']}>
 				{entryList.length > 0 &&
 				  <FlatList

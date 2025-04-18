@@ -4,13 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Main from './pages/Main/index';
 import NewEntry from './pages/NewEntry/newEntry';
 import Report from './pages/Report/Report';
+import History from './pages/History/History';
 
 const Routes = createStaticNavigation(
     createNativeStackNavigator({
         screens: {
             Main,
             NewEntry,
-            Report
+            Report,
+            History
         },
         screenOptions: {
             headerShown: false
