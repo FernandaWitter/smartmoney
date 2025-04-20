@@ -1,7 +1,7 @@
 import { connectToDatabase } from "../database/DBConfig"
 import { getCategories, getCategorySummary } from "../database/services/entryService"
 
-export const getCategoryList = async () => {
+export const getCategoryList = async() => {
     try {
         const db = await connectToDatabase()
         const catList = await getCategories(db)
@@ -11,7 +11,7 @@ export const getCategoryList = async () => {
     }
 }
 
-export const getCategorySumByDate = async (days, category) => {
+export const getCategorySumByDate = async(days, category) => {
     try {
         console.log('getCategorySumByDate - ', days, ' days, category: ', category)
         const db = await connectToDatabase()

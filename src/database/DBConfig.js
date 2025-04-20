@@ -33,8 +33,7 @@ export const createTables = async(db) => {
     amount REAL NOT NULL,
     description TEXT,
     date TEXT,
-    lat REAL,
-    long REAL,
+    address TEXT,
     photo BLOB,
     isInit BOOLEAN,
     FOREIGN KEY(category) REFERENCES ${CATEGORY_TABLE}(id));`

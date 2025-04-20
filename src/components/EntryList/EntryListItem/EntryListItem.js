@@ -38,8 +38,8 @@ const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
 
 					{entry.address &&
 						<View style={styles.secondaryItemContainer}>
-							<Icon name='person-pin' style={styles.secondaryItemValueIcon} />
-							<Text style={styles.secondaryItemValue}>Address</Text>
+							<Icon name='location-pin' style={styles.secondaryItemValueIcon} />
+							<Text style={styles.secondaryItemValue}>{entry.address}</Text>
 						</View>
 					}
 					</View>

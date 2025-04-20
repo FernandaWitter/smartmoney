@@ -25,7 +25,8 @@ const NewEntryForm = ({route}) => {
         category: '',
         categoryText:'',
         isDateChanged: false,
-        isDescriptionChanged: false
+        isDescriptionChanged: false,
+        address: '',
     })
 
     //TODO: Validate input data
@@ -42,9 +43,14 @@ const NewEntryForm = ({route}) => {
     };
 
     const onSave = async () => {
+
+        console.log('NEW FORM :: entry on save')
+        console.log(currEntry)
         let date = entry.date
         if(!entry.date || currEntry.isDateChanged){
-            date = moment(currEntry.date).format('YYYY-MM-DD')
+            console.log('currEntryDate ', (currEntry.date).toString())
+            date = moment(currEntry.date).format('YYYY-MM-DD HH:mm')
+            console.log('formatted date', date)
         }
         if(isValid){
             const amountInformed = parseFloat(currEntry.amount || entry.amount)
@@ -54,7 +60,8 @@ const NewEntryForm = ({route}) => {
                 "category": catSelected,
                 "amount": catSelected == 1 ? amountInformed : amountInformed*(-1) ,
                 "description": currEntry.description ? currEntry.description.replace("'", "''") : entry.description,
-                "date": date
+                "date": date,
+                "address": currEntry.address || entry.address || '',
             }
             if (entryID.entryID > 0){
                 await updateEntry(data)
@@ -84,8 +91,12 @@ const NewEntryForm = ({route}) => {
     }
 
     const onSetDate = (date) => {
-        console.log('onSetDate: ', date.toString())
+        console.log('date received :: ', date.toString())
         setCurrEntry(() => ({ ...currEntry, date: date, isDateChanged: true}))
+    }
+
+    const onSetAddress = (location) => {
+        setCurrEntry(() => ({ ...currEntry, address: location}))
     }
 
     return(
@@ -120,9 +131,9 @@ const NewEntryForm = ({route}) => {
                 </View>
                 <View style={styles.formActionContainer}>
                     {((entry.date && entryID.entryID) || (entryID.entryID == 0)) &&
-                    <DateTimePicker value={entryID.entryID != 0 ? moment(entry.date).toDate() : currEntry.date} onChange={onSetDate}/>
+                    <DateTimePicker value={entryID.entryID != 0 && !currEntry.isDateChanged ? moment(entry.date).toDate() : currEntry.date} onChange={onSetDate}/>
                     }
-                    <GPSAction/>
+                    <GPSAction entry={entry.address || currEntry.address} onSetAddress={onSetAddress}/>
                     <CameraAction/>
                 </View>
             </View>

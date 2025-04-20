@@ -110,7 +110,7 @@ export const getEntries = async(db, days, category, limit) => {
     console.log(db)
 
     try {
-        let query = `SELECT ${ENTRY_TABLE}.id, category, amount, description, color, date FROM ${ENTRY_TABLE} 
+        let query = `SELECT ${ENTRY_TABLE}.id, category, amount, description, color, date, address FROM ${ENTRY_TABLE} 
                 JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id 
                 WHERE 1=1`
         if (days > 0){
@@ -136,6 +136,7 @@ export const getEntries = async(db, days, category, limit) => {
                     "description": result.rows.item(index).description,
                     "color": result.rows.item(index).color,
                     "date": result.rows.item(index).date,
+                    "address": result.rows.item(index).address
                 }
             }
         })
@@ -170,7 +171,7 @@ export const getEntries = async(db, days, category, limit) => {
 
 export const getEntryByID = async (db, id) => {
     try {
-        const query =`SELECT amount, category, description, date, ${CATEGORY_TABLE}.name as categoryText 
+        const query =`SELECT amount, category, description, date, ${CATEGORY_TABLE}.name as categoryText, address
             FROM ${ENTRY_TABLE} JOIN ${CATEGORY_TABLE} ON ${ENTRY_TABLE}.category = ${CATEGORY_TABLE}.id
             WHERE ${ENTRY_TABLE}.id = ${id}`
         const recoveredEntry = await db.executeSql(query)
@@ -183,7 +184,8 @@ export const getEntryByID = async (db, id) => {
                     "amount": Math.abs(result.rows.item(index).amount),
                     "description": result.rows.item(index).description,
                     "date": result.rows.item(index).date,
-                    "categoryText": result.rows.item(index).categoryText
+                    "categoryText": result.rows.item(index).categoryText,
+                    "address": result.rows.item(index).address
                 }
             }
             return entry
@@ -197,8 +199,8 @@ export const getEntryByID = async (db, id) => {
 
 export const saveEntryItem = async(db, entry) => {
     const insertQuery =
-        `INSERT INTO ${ENTRY_TABLE}(category, amount, description, date) VALUES
-        (${entry.category}, ${entry.amount}, '${entry.description}', '${entry.date}');`;
+        `INSERT INTO ${ENTRY_TABLE}(category, amount, description, date, address) VALUES
+        (${entry.category}, ${entry.amount}, '${entry.description}', '${entry.date}', '${entry.address}');`;
     return db.executeSql(insertQuery, error => { console.log(error) });
 };
 
@@ -208,7 +210,8 @@ export const updateEntryItem = async (db, entry) => {
             category = ${entry.category},
             amount = ${entry.amount},
             description = '${entry.description}',
-            date = '${entry.date}'
+            date = '${entry.date}',
+            address = '${entry.address}'
         WHERE id = ${entry.id}`
     return db.executeSql(updateQuery, error => {console.log(error)}
     )

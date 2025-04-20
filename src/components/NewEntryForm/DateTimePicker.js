@@ -1,7 +1,6 @@
 import Icon from '@react-native-vector-icons/material-icons';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 import Colors from '../../styles/colors';
 import DatePicker from 'react-native-date-picker';
 
@@ -20,9 +19,10 @@ const EntryDateTimePicker = ({value, onChange}) => {
             </TouchableOpacity>
             <DatePicker
         modal
-        mode="date"
+        mode="datetime"
         open={open}
         date={value}
+        minuteInterval={5}
         onConfirm={(date) => {
           setOpen(false)
           onChange(date)

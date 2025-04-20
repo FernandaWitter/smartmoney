@@ -10,7 +10,7 @@ const useBalance = () => {
     useEffect(() => {
         async function loadBalance() {
             const value = await getBalance()
-             setBalance(value)
+            isNaN(value) ? setBalance((0).toFixed(2)) : setBalance(value)
         }
         loadBalance();
     }, [balance, isFocused]);
