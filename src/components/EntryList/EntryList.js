@@ -41,7 +41,7 @@ const EntryList = ({entryList, showMore, isReport = false, limitHeight, title}) 
 const styles = StyleSheet.create({
 	container:{
 		marginTop:10,
-		marginBottom: 30,
+		marginBottom: 10,
 		paddingVertical:10,
 	},
 	emptyContainer:{

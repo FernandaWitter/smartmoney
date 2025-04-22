@@ -12,6 +12,9 @@ const useSingleEntry = (id) => {
             }
         }
         loadEntry();
+
+        console.log('entry on useSingleEntry')
+        console.log(JSON.stringify(entry))
     }, [])
     return [entry, saveEntry, updateEntry, deleteEntry]
 }

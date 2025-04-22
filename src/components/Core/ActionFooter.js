@@ -34,10 +34,8 @@ export const SecondaryActionButton = ({title, onPress}) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.background,
-        //paddingVertical: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        //marginVertical: 10,
         flex: 1,
     },
     primaryButton:{

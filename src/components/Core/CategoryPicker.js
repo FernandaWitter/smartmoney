@@ -19,8 +19,6 @@ const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}
                         return(
                         <TouchableOpacity style={styles.modalItem}
                             onPress={() => {
-                                console.log('category item')
-                                console.log(item.item)
                                 return onChangeCategory(item.item);
                             }}>
                             <Text style={[styles.modalItemText, {color: item.item.color}]}>
