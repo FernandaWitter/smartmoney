@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import BalancePanelLabel from './BalancePanelLabel/BalancePanelLabel';
 import BalancePanelChart from './BalancePanelChart/BalancePanelChart';
@@ -15,6 +15,7 @@ const BalancePanel = () => {
 
     return(
     	<View style={styles.container}>
+			<StatusBar barStyle='light-content' backgroundColor={Colors.violet} />
         	<LinearGradient colors={[Colors.violet, Colors.blue]}
             	style={styles.panel}>
             	<BalancePanelLabel currBalance={balance}/>

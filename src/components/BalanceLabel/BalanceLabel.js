@@ -1,12 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-
-import { connectToDatabase } from '../../database/DBConfig';
-import { getBalance } from '../../database/services/entryService';
+import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, StatusBar} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Colors from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
 import Icon from '@react-native-vector-icons/material-icons';
 import useBalance from '../../hooks/useBalance';
 
@@ -16,6 +13,7 @@ const BalanceLabel = () => {
 
     return(
         <View style={styles.container}>
+			<StatusBar barStyle='light-content' backgroundColor={Colors.background} />
             <View style={styles.header}>
               <TouchableOpacity style={styles.button} onPress={() => {navigation.goBack()}}>
                 <Icon

@@ -9,6 +9,7 @@ import moment from 'moment';
 import ActionFooter, { PrimaryActionButton } from '../../components/Core/ActionFooter';
 import { saveEntry } from '../../services/Entries';
 import { useNavigation } from '@react-navigation/native';
+import { setInitialized } from '../../services/Welcome';
 
 const Welcome = () =>{
     const navigation = useNavigation();
@@ -16,8 +17,6 @@ const Welcome = () =>{
 
     const onSave = async () => {
         let date = moment(new Date()).format('YYYY-MM-DD HH:mm')
-        console.log('amount')
-        console.log(amount)
             
         const data = {
             "id": '',
@@ -29,6 +28,7 @@ const Welcome = () =>{
             "photo": ''
         }
         await saveEntry(data);
+        setInitialized();
         navigation.navigate('Main')
     }
 

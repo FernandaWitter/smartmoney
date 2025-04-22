@@ -6,6 +6,7 @@ import NewEntry from './pages/NewEntry/newEntry';
 import Report from './pages/Report/Report';
 import History from './pages/History/History';
 import Welcome from './pages/Welcome/Welcome';
+import Loading from './pages/Loading/Loading';
 
 const Routes = createStaticNavigation(
     createNativeStackNavigator({
@@ -14,12 +15,13 @@ const Routes = createStaticNavigation(
             NewEntry,
             Report,
             History, 
-            Welcome
+            Welcome,
+            Loading
         },
         screenOptions: {
             headerShown: false
         },
-        initialRouteName: 'Welcome',
+        initialRouteName: 'Loading',
         backBehavior: 'order'
     })
 );
