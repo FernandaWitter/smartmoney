@@ -1,4 +1,14 @@
 {
-  "name": "smartMoney",
-  "displayName": "smartMoney"
+    "name": "smartMoney",
+    "displayName": "smartMoney",
+    "plugins": [
+        [
+            "react-native-vision-camera",
+            {
+                "cameraPermissionText": "smartMoney needs access to your Camera.",
+                "enableMicrophonePermission": false,
+                "microphonePermissionText": "smartMoney needs access to your Microphone."
+            }
+        ]
+    ]
 }

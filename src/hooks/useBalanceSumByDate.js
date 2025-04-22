@@ -10,11 +10,9 @@ const useBalanceSumByDate = (days = 7) => {
     useEffect(() => {
         async function loadBalanceSumByDate() {
             const data = await getBalanceSummary(days)
-            console.log('data: ', data)
             setBalanceSum([...data])
         }
         loadBalanceSumByDate();
-        console.log('balanceSum', balanceSum)
     }, [days, isFocused]);
 
     return [balanceSum]

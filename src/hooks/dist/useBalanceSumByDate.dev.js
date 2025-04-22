@@ -48,7 +48,6 @@ var useBalanceSumByDate = function useBalanceSumByDate() {
 
             case 2:
               data = _context.sent;
-              console.log('data: ', data);
               setBalanceSum(_toConsumableArray(data));
 
             case 5:
@@ -60,7 +59,6 @@ var useBalanceSumByDate = function useBalanceSumByDate() {
     }
 
     loadBalanceSumByDate();
-    console.log('balanceSum', balanceSum);
   }, [days, isFocused]);
   return [balanceSum];
 };

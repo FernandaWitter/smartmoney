@@ -10,12 +10,9 @@ const useCategorySumByDate = (days = 7, category = 0) => {
     useEffect(() => {
         async function loadCategorySumByDate() {
             const data = await getCategorySumByDate(days, category)
-            console.log('data in useCategorySumByDate')
-            console.log(data)
             setCategorySum([...data])
         }
         loadCategorySumByDate();
-        console.log('categorySum', categorySum)
     }, [isFocused, days, category]);
 
     return [categorySum]

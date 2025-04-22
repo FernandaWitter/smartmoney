@@ -50,7 +50,6 @@ var getCategorySumByDate = function getCategorySumByDate(days, category) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          console.log('getCategorySumByDate - ', days, ' days, category: ', category);
           _context2.next = 4;
           return regeneratorRuntime.awrap((0, _DBConfig.connectToDatabase)());
 

@@ -49,8 +49,6 @@ var useCategorySumByDate = function useCategorySumByDate() {
 
             case 2:
               data = _context.sent;
-              console.log('data in useCategorySumByDate');
-              console.log(data);
               setCategorySum(_toConsumableArray(data));
 
             case 6:
@@ -62,7 +60,6 @@ var useCategorySumByDate = function useCategorySumByDate() {
     }
 
     loadCategorySumByDate();
-    console.log('categorySum', categorySum);
   }, [isFocused, days, category]);
   return [categorySum];
 };

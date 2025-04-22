@@ -32,8 +32,6 @@ export const saveEntry = async(data) => {
 
 export const updateEntry = async(data) => {
     try {
-        console.log('data at updateEntry')
-        console.log(data)
         const db = await connectToDatabase()
         return await updateEntryItem(db, data)
     } catch (error) {

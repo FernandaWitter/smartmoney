@@ -13,7 +13,6 @@ export const getCategoryList = async() => {
 
 export const getCategorySumByDate = async(days, category) => {
     try {
-        console.log('getCategorySumByDate - ', days, ' days, category: ', category)
         const db = await connectToDatabase()
         const catList = await getCategorySummary(db, days, category)
         return catList

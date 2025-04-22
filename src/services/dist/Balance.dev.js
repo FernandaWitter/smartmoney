@@ -80,8 +80,6 @@ var getBalanceSummary = function getBalanceSummary(days) {
           }).map(function (amount, index, collection) {
             return balanceUntilDate + _lodash["default"].sum(_lodash["default"].slice(collection, 0, index + 1));
           });
-          console.log('entries until date');
-          console.log(JSON.stringify(entriesUntilDate));
           return _context2.abrupt("return", entriesUntilDate);
 
         case 18:

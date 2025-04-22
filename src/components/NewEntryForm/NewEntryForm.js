@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {View,TextInput, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import MoneyInput from '../Core/MoneyInput';
@@ -27,11 +27,12 @@ const NewEntryForm = ({route}) => {
         isDateChanged: false,
         isDescriptionChanged: false,
         address: '',
+        photo:'',
+        isPhotoChanged: false
     })
 
     //TODO: Validate input data
     const isValid = () => {
-        console.log('isValid: ', parseFloat(amount))
         if(parseFloat(amount) != 0){
             return true;
         }
@@ -43,15 +44,12 @@ const NewEntryForm = ({route}) => {
     };
 
     const onSave = async () => {
-
-        console.log('NEW FORM :: entry on save')
-        console.log(currEntry)
         let date = entry.date
+        
         if(!entry.date || currEntry.isDateChanged){
-            console.log('currEntryDate ', (currEntry.date).toString())
             date = moment(currEntry.date).format('YYYY-MM-DD HH:mm')
-            console.log('formatted date', date)
         }
+        
         if(isValid){
             const amountInformed = parseFloat(currEntry.amount || entry.amount)
             const catSelected = parseInt(currEntry.category|| entry.category)
@@ -62,6 +60,7 @@ const NewEntryForm = ({route}) => {
                 "description": currEntry.description ? currEntry.description.replace("'", "''") : entry.description,
                 "date": date,
                 "address": currEntry.address || entry.address || '',
+                "photo": currEntry.photo || entry.photo || ''
             }
             if (entryID.entryID > 0){
                 await updateEntry(data)
@@ -91,12 +90,15 @@ const NewEntryForm = ({route}) => {
     }
 
     const onSetDate = (date) => {
-        console.log('date received :: ', date.toString())
         setCurrEntry(() => ({ ...currEntry, date: date, isDateChanged: true}))
     }
 
     const onSetAddress = (location) => {
         setCurrEntry(() => ({ ...currEntry, address: location}))
+    }
+
+    const onChangePhoto = (capturedPhoto) => {
+        setCurrEntry(() => ({ ...currEntry, photo: capturedPhoto, isPhotoChanged: true}))
     }
 
     return(
@@ -112,30 +114,27 @@ const NewEntryForm = ({route}) => {
                         modalVisible={modalVisible}
                         onChangeCategory={onSelectCategory}
                         onClose={() => setModalVisible(false)}
-                        selectAll={false}
-                    />
+                        selectAll={false} />
                 </View>
             }
                 <MoneyInput
                     value={entry.amount}
                     onChangeValue={onSetAmount}
-                    label='Amount'
-                />    
+                    label='Amount' />    
                 <View>
                     <Text style={styles.label}>Description</Text>
                     <TextInput 
                         style={styles.input} value={currEntry.isDescriptionChanged? currEntry.description : entry.description}
                         onChangeText={(text) => { setCurrEntry(() => ({ ...currEntry, description: text, isDescriptionChanged: true }))}}
-                        multiline={true}
-                        />
+                        multiline={true} />
                 </View>
-                <View style={styles.formActionContainer}>
-                    {((entry.date && entryID.entryID) || (entryID.entryID == 0)) &&
-                    <DateTimePicker value={entryID.entryID != 0 && !currEntry.isDateChanged ? moment(entry.date).toDate() : currEntry.date} onChange={onSetDate}/>
-                    }
-                    <GPSAction entry={entry.address || currEntry.address} onSetAddress={onSetAddress}/>
-                    <CameraAction/>
-                </View>
+                {((entry.date && entryID.entryID) || (entryID.entryID == 0)) &&
+                    <View style={styles.formActionContainer}>
+                        <DateTimePicker value={entryID.entryID != 0 && !currEntry.isDateChanged ? moment(entry.date).toDate() : currEntry.date} onChange={onSetDate} edit={entry.date}/>
+                        <GPSAction entry={entry.address || currEntry.address} onSetAddress={onSetAddress} edit={entry.address}/>
+                        <CameraAction photo={currEntry.isPhotoChanged ? currEntry.photo : entry.photo} onChangePhoto={onChangePhoto} edit={entry.photo}/>
+                    </View>
+                }
             </View>
             <ActionFooter>
                 {(entryID.entryID > 0) &&

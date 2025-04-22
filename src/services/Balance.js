@@ -25,8 +25,6 @@ export const getBalanceSummary = async(days) => {
             .map((amount, index, collection) => {
                 return (balanceUntilDate + _.sum(_.slice(collection, 0, index + 1)))
             })
-        console.log('entries until date')
-        console.log(JSON.stringify(entriesUntilDate))
         return entriesUntilDate
     } catch (error) {
         console.error(error)

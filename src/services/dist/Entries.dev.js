@@ -117,8 +117,6 @@ var updateEntry = function updateEntry(data) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.prev = 0;
-          console.log('data at updateEntry');
-          console.log(data);
           _context4.next = 5;
           return regeneratorRuntime.awrap((0, _DBConfig.connectToDatabase)());
 

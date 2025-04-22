@@ -6,7 +6,7 @@ import Geolocation from '@react-native-community/geolocation'
 import { LOCATIONIQ_KEY } from '../../environmentVariables'
 import ActionFooter, { PrimaryActionButton, SecondaryActionButton } from '../Core/ActionFooter'
 
-const GPSAction = ({entry, onSetAddress}) => {
+const GPSAction = ({entry, onSetAddress, edit}) => {
     const [currLocation, setCurrLocation] = useState(entry)
     const [modalVisible, setModalVisible] = useState(false)
 
@@ -17,7 +17,7 @@ const GPSAction = ({entry, onSetAddress}) => {
             .then(result => {
                 setCurrLocation(result.display_name)
             })
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
     }
     
     const onButtonPress = () => {
@@ -26,7 +26,7 @@ const GPSAction = ({entry, onSetAddress}) => {
                 pos => {
                     getLocation(pos.coords.latitude, pos.coords.longitude)
                 },
-                error => {console.log(error)}
+                error => {console.error(error)}
             );
         }
     };
@@ -51,7 +51,7 @@ const GPSAction = ({entry, onSetAddress}) => {
     
     return(
         <View>
-            <TouchableOpacity style={styles.button} onPress={onOpen}>
+            <TouchableOpacity style={[styles.button, (edit ? {backgroundColor: Colors.blue} : {backgroundColor: Colors.asphalt})]} onPress={onOpen}>
                 <Icon name='location-pin' size={30} color={Colors.white}/>
             </TouchableOpacity>
 
@@ -81,7 +81,6 @@ const GPSAction = ({entry, onSetAddress}) => {
 
 const styles = StyleSheet.create({
     button:{
-        backgroundColor: Colors.asphalt,
         width: 59,
         height: 59,
         borderRadius: 100,

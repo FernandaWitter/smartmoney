@@ -9,7 +9,7 @@ enablePromise(true)
 
 export const connectToDatabase = async() => {
     return openDatabase({ name: DATABASE_NAME, location: "default" },
-        () => { console.log('Connected to DB') },
+        () => {},
         (error) => {
             console.error(error)
             throw Error("Could not connect to database")
@@ -34,7 +34,7 @@ export const createTables = async(db) => {
     description TEXT,
     date TEXT,
     address TEXT,
-    photo BLOB,
+    photo TEXT,
     isInit BOOLEAN,
     FOREIGN KEY(category) REFERENCES ${CATEGORY_TABLE}(id));`
 
@@ -47,10 +47,9 @@ export const createTables = async(db) => {
     (6, "Others", '${Colors.blue}', false, false, 6);`
 
     try {
-        console.log('creating tables')
-        await db.executeSql(catQuery, error => { console.log(error) })
-        await db.executeSql(entriesQuery, error => { console.log(error) })
-        await db.executeSql(insertCatQuery, error => { console.log(error) })
+        await db.executeSql(catQuery, error => { console.error(error) })
+        await db.executeSql(entriesQuery, error => { console.error(error) })
+        await db.executeSql(insertCatQuery, error => { console.error(error) })
     } catch (error) {
         console.error(error)
         throw Error(`Failed to create tables`)
