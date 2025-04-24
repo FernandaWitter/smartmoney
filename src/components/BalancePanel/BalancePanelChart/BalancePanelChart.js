@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, StyleSheet} from 'react-native';
-import { AreaChart} from 'react-native-svg-charts'
+import { View, StyleSheet } from 'react-native';
+import { AreaChart } from 'react-native-svg-charts'
+
 import useBalanceSumByDate from '../../../hooks/useBalanceSumByDate';
 
 const BalancePanelChart = () => {
-    const [balanceSum] = useBalanceSumByDate()
+    const [balanceSum] = useBalanceSumByDate();
     return(
         <View style={styles.container}>
             <AreaChart
@@ -21,9 +22,9 @@ const BalancePanelChart = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 20,
+        marginBottom: 5,
         marginTop: -20,
-        marginBottom: 5
+        paddingHorizontal: 20,        
     },
     chart: {
         height: 60

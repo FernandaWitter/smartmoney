@@ -1,53 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import Colors from '../../styles/colors'
-import Icon from '@react-native-vector-icons/material-icons'
-import Geolocation from '@react-native-community/geolocation'
-import { LOCATIONIQ_KEY } from '../../environmentVariables'
-import ActionFooter, { PrimaryActionButton, SecondaryActionButton } from '../Core/ActionFooter'
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Modal, Text, TextInput, StyleSheet } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+import Icon from '@react-native-vector-icons/material-icons';
+
+import { LOCATIONIQ_KEY } from '../../environmentVariables';
+import ActionFooter, { PrimaryActionButton, SecondaryActionButton } from '../Core/ActionFooter';
+import Colors from '../../styles/colors';
 
 const GPSAction = ({entry, onSetAddress, edit}) => {
-    const [currLocation, setCurrLocation] = useState(entry)
-    const [modalVisible, setModalVisible] = useState(false)
+    const [currLocation, setCurrLocation] = useState(entry);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const getLocation = async (lat, long) => {
-        const url = `https://us1.locationiq.com/v1/reverse?key=${LOCATIONIQ_KEY}&lat=${lat}&lon=${long}&format=json`
+        const url = `https://us1.locationiq.com/v1/reverse?key=${LOCATIONIQ_KEY}&lat=${lat}&lon=${long}&format=json`;
         fetch(url)
             .then(response => response.json())
             .then(result => {
-                setCurrLocation(result.display_name)
+                setCurrLocation(result.display_name);
             })
             .catch(error => console.error(error));
-    }
+    };
     
     const onButtonPress = () => {
         if(!entry) {
             Geolocation.getCurrentPosition(
                 pos => {
-                    getLocation(pos.coords.latitude, pos.coords.longitude)
+                    getLocation(pos.coords.latitude, pos.coords.longitude);
                 },
                 error => {console.error(error)}
             );
-        }
+        };
     };
 
     const onOpen = () => {
-        onButtonPress()
-        setModalVisible(true)
-    }
+        onButtonPress();
+        setModalVisible(true);
+    };
 
     const onSave = async () => {
-        onClose()
-        return onSetAddress(currLocation)
-    }
+        onClose();
+        return onSetAddress(currLocation);
+    };
 
     const onClose = () => {
-        setModalVisible(false)
-    }
+        setModalVisible(false);
+    };
 
     const onClearAll = () => {
-        setCurrLocation('')
-    }
+        setCurrLocation('');
+    };
     
     return(
         <View>
@@ -55,69 +56,68 @@ const GPSAction = ({entry, onSetAddress, edit}) => {
                 <Icon name='location-pin' size={30} color={Colors.white}/>
             </TouchableOpacity>
 
-        <Modal animationType='slide' transparent={false} visible={modalVisible} style={borderRadius=10}>
-            <View style={styles.modal}>
-            <Text style={styles.modalLabel}>Set location</Text>
-            <TextInput 
-                style={styles.input} value={currLocation}
-                onChangeText={(text) => { setCurrLocation(text)}}
-                multiline numberOfLines={5}/>
-            <TouchableOpacity onPress={onClearAll}>
-                <Text style={styles.clearBtn}>Clear</Text>
-            </TouchableOpacity>
-            </View>
-            
-            <View style={styles.footer}>
-                <ActionFooter>
+            <Modal animationType='slide' transparent={false} visible={modalVisible} style={borderRadius=10}>
+                <View style={styles.modal}>
+                    <Text style={styles.modalLabel}>Set location</Text>
+                    <TextInput 
+                        style={styles.input} value={currLocation}
+                        onChangeText={(text) => { setCurrLocation(text)}}
+                        multiline numberOfLines={5}/>
+                    <TouchableOpacity onPress={onClearAll}>
+                        <Text style={styles.clearBtn}>Clear</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <View style={styles.footer}>
+                    <ActionFooter>
                         <SecondaryActionButton title={'Cancel'} onPress={onClose}/>
-                    <PrimaryActionButton title={'Save'} onPress={onSave}/>
-                    
-                </ActionFooter>
-            </View>
-        </Modal>
+                        <PrimaryActionButton title={'Save'} onPress={onSave}/>                    
+                    </ActionFooter>
+                </View>
+            </Modal>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     button:{
-        width: 59,
-        height: 59,
+        alignItems: 'center',        
         borderRadius: 100,
-        alignItems: 'center',
+        height: 59,
         justifyContent: 'center',
+        width: 59,
     }, 
     modal:{
-        flex: 1,
         backgroundColor: Colors.background,
+        flex: 1,
     },
     modalLabel:{
-        fontSize: 24,
         color: Colors.white,
-        textAlign: 'center',
+        fontSize: 24,
         padding: 10,
+        textAlign: 'center',
     },
     clearBtn: {
-        fontSize: 18,
         backgroundColor: Colors.background,
         color: Colors.white,
-        textAlign: 'right',
+        fontSize: 18,
+        marginRight: 15,
         padding: 10,
-        marginRight: 15
+        textAlign: 'right',
     },
     input: {
-        fontSize: 28,
-        color: Colors.white,
-        textAlign: 'center',
         backgroundColor: Colors.asphalt,
         borderRadius: 15,
+        color: Colors.white,
+        fontSize: 28,
         marginHorizontal: 20,
-        marginVertical: 10
+        marginVertical: 10,
+        textAlign: 'center',
     },     
     footer:{
         flex: 1,
-        maxHeight: 80
-    }
-})
+        maxHeight: 80,
+    },
+});
 
 export default GPSAction;

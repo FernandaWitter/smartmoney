@@ -9,13 +9,14 @@ const useCategorySumByDate = (days = 7, category = 0) => {
 
     useEffect(() => {
         async function loadCategorySumByDate() {
-            const data = await getCategorySumByDate(days, category)
-            setCategorySum([...data])
-        }
+            const data = await getCategorySumByDate(days, category);
+            setCategorySum([...data]);
+        };
+
         loadCategorySumByDate();
     }, [isFocused, days, category]);
 
-    return [categorySum]
+    return [categorySum];
 };
 
-export default useCategorySumByDate
+export default useCategorySumByDate;

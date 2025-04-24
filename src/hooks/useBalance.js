@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 import { getBalance } from "../services/Balance";
-import { useIsFocused } from "@react-navigation/native";
 
 const useBalance = () => {
     const [balance, setBalance] = useState();
@@ -9,12 +9,12 @@ const useBalance = () => {
 
     useEffect(() => {
         async function loadBalance() {
-            const value = await getBalance()
-            isNaN(value) ? setBalance((0).toFixed(2)) : setBalance(value)
-        }
+            const value = await getBalance();
+            isNaN(value) ? setBalance((0).toFixed(2)) : setBalance(value);
+        };
         loadBalance();
     }, [balance, isFocused]);
-    return [balance]
+    return [balance];
 };
 
-export default useBalance
+export default useBalance;

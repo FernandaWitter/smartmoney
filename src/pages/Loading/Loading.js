@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, StatusBar, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import Colors from '../../styles/colors';
 import { isInitialized } from '../../services/Welcome';
+import Colors from '../../styles/colors';
 
 const Loading = () =>{
     const navigation = useNavigation();
 
     useEffect(() => {
         const makeRedirect = async () => {
-            (await isInitialized()) ? navigation.navigate('Main') : navigation.navigate('Welcome')
-        }
+            (await isInitialized()) ? navigation.navigate('Main') : navigation.navigate('Welcome');
+        };
         makeRedirect();
     }, []);
 
@@ -25,11 +25,11 @@ const Loading = () =>{
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: Colors.background,
         alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: Colors.background,
+        flex: 1,
+        justifyContent: 'center',
     },
-})
+});
 
 export default Loading;

@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
+
 import { deleteEntry, getEntryFilterID, saveEntry, updateEntry } from "../services/Entries";
 
 const useSingleEntry = (id) => {
-    const [entry, setEntry] = useState({})
+    const [entry, setEntry] = useState({});
 
     useEffect(() => {
         const loadEntry = async() => {
             if (id.entryID > 0) {
-                const entryItem = await getEntryFilterID(id.entryID)
-                setEntry(entryItem)
+                const entryItem = await getEntryFilterID(id.entryID);
+                setEntry(entryItem);
             }
-        }
-        loadEntry();
+        };
 
-        console.log('entry on useSingleEntry')
-        console.log(JSON.stringify(entry))
-    }, [])
-    return [entry, saveEntry, updateEntry, deleteEntry]
-}
+        loadEntry();
+    }, []);
+    return [entry, saveEntry, updateEntry, deleteEntry];
+};
 
 export default useSingleEntry;

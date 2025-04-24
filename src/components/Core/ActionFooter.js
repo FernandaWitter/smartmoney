@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+
 import Colors from '../../styles/colors';
 
 const ActionFooter = ({children}) => {
@@ -7,8 +8,8 @@ const ActionFooter = ({children}) => {
         <View style={styles.container}>
             {children}
         </View>
-    )
-}
+    );
+};
 
 export const PrimaryActionButton = ({title, onPress}) => {
     return(
@@ -17,8 +18,8 @@ export const PrimaryActionButton = ({title, onPress}) => {
                 <Text style={styles.primaryButtonText}>{title}</Text>
             </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
 
 export const SecondaryActionButton = ({title, onPress}) => {
     return(
@@ -27,49 +28,48 @@ export const SecondaryActionButton = ({title, onPress}) => {
                 <Text style={styles.secondaryButtonText}>{title}</Text>
             </TouchableOpacity>
         </View>
-    )
-}
-
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.background,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
         flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',       
     },
     primaryButton:{
+        alignSelf: 'center',
         backgroundColor: Colors.backgroundColor,
-        borderWidth: 2,
         borderColor: Colors.green,
         borderRadius: 15,
-        marginVertical: 10,
+        borderWidth: 2,
         marginHorizontal: 20,
+        marginVertical: 10,
         paddingHorizontal: 30,
         paddingVertical:10,
-        alignSelf: 'center'
     }, 
     primaryButtonText:{
-        fontSize: 28,
         color: Colors.green,
-        textAlign: 'center'
+        fontSize: 28,
+        textAlign: 'center',
     },
     secondaryButton:{
+        alignSelf: 'center',
         backgroundColor: Colors.background,
-        borderWidth: 2,
         borderColor: Colors.red,
         borderRadius: 15,
-        marginVertical: 10,
+        borderWidth: 2,
         marginHorizontal: 20,
+        marginVertical: 10,
         paddingHorizontal: 15,
         paddingVertical:10,
-        alignSelf: 'center'
     }, 
     secondaryButtonText:{
-        fontSize: 28,
         color: Colors.red,
+        fontSize: 28,
         textAlign: 'center'
     },
-})
+});
 
 export default ActionFooter;

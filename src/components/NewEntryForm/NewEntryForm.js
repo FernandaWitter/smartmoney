@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {View,TextInput, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import moment from 'moment';
+
+import useSingleEntry from '../../hooks/useSingleEntry';
 
 import MoneyInput from '../Core/MoneyInput';
 import Colors from '../../styles/colors';
@@ -10,14 +13,14 @@ import EntryDeleteAction from './EntryDeleteAction';
 import GPSAction from './GPSAction';
 import CameraAction from './CameraAction';
 import ActionFooter, { PrimaryActionButton } from '../Core/ActionFooter';
-import useSingleEntry from '../../hooks/useSingleEntry';
-import moment from 'moment';
+
 
 const NewEntryForm = ({route}) => {
     const navigation = useNavigation();
-    const entryID = route?.route?.params || {"entryID": 0}
+    const entryID = route?.route?.params || {"entryID": 0};
     const [modalVisible, setModalVisible] = useState(false);
-    const [entry, saveEntry, updateEntry, deleteEntry] = useSingleEntry(entryID)
+    const [entry, saveEntry, updateEntry, deleteEntry] = useSingleEntry(entryID);
+    const [errors, setErrors] = useState([]);
     const [currEntry, setCurrEntry] = useState({
         id: '',
         amount: '',
@@ -157,10 +160,9 @@ const NewEntryForm = ({route}) => {
             </View>
             <ActionFooter>
                 {(entryID.entryID > 0) &&
-                <EntryDeleteAction onOkPress={onDelete}/>
+                    <EntryDeleteAction onOkPress={onDelete}/>
                 }
                 <PrimaryActionButton title="Save" onPress={onSave}/>
-
             </ActionFooter>            
         </View>
     );
@@ -172,46 +174,52 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     input: {
-        fontSize: 28,
         color: Colors.white,
-        textAlign: 'center',
         backgroundColor: Colors.asphalt,
         borderRadius: 15,
+        fontSize: 28,
         marginHorizontal: 20,
-        marginVertical: 10
+        marginVertical: 10,
+        textAlign: 'center',
     }, 
     button:{
         margin: 10,
         padding: 10,
     },
     label:{
-        fontSize:24,
         color: Colors.white,
+        fontSize:24,
         textAlign: 'center',
     },
     formActionContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
         alignContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
         justifyContent: 'space-around',
         padding: 10,
-        marginVertical: 20
+        marginVertical: 20,
     },
     pickerButton:{
         backgroundColor: Colors.asphalt,
         borderRadius: 15,
-        marginVertical: 10,
         marginHorizontal: 20,
+        marginVertical: 10,
         padding: 10,
     },
     pickerButtonText: {
-        fontSize: 28,
         color: Colors.white,
+        fontSize: 28,
         textAlign: 'center',
     },
+    errorMessage:{
+        alignSelf: 'center',
+        color: Colors.red,
+        fontSize: 18,
+        marginBottom: 15,
+    },
     pickerLabel: {
-        fontSize: 24,
         color: Colors.white,
+        fontSize: 24,
         textAlign: 'center',
     },
 });

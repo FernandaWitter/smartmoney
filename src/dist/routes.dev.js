@@ -34,15 +34,6 @@ var Routes = (0, _native.createStaticNavigation)((0, _nativeStack.createNativeSt
   initialRouteName: 'Main',
   backBehavior: 'order'
 }));
-/*
-const RootStack = createNativeStackNavigator({
-    screens: {
-        Home: Main,
-    },
-});
-
-const Routes = createStaticNavigation(RootStack);
-*/
 
 var _default = Routes;
 exports["default"] = _default;

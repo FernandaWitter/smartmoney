@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import moment from 'moment';
 
-import Logo from '../../assets/logo.png'
-import Colors from '../../styles/colors';
+import { saveEntry } from '../../services/Entries';
+import { setInitialized } from '../../services/Welcome';
+
+import Logo from '../../assets/logo.png';
 import WelcomeMessage from './WelcomeMessage';
 import WelcomeBalanceInput from './WelcomeBalanceInput';
-import moment from 'moment';
 import ActionFooter, { PrimaryActionButton } from '../../components/Core/ActionFooter';
-import { saveEntry } from '../../services/Entries';
-import { useNavigation } from '@react-navigation/native';
-import { setInitialized } from '../../services/Welcome';
+import Colors from '../../styles/colors';
 
 const Welcome = () =>{
     const navigation = useNavigation();
-    const [amount, setAmount] = useState()
+    const [amount, setAmount] = useState();
 
     const onSave = async () => {
-        let date = moment(new Date()).format('YYYY-MM-DD HH:mm')
-            
+        let date = moment(new Date()).format('YYYY-MM-DD HH:mm');           
         const data = {
             "id": '',
             "category": 1,
@@ -26,11 +26,11 @@ const Welcome = () =>{
             "date": date,
             "address": '',
             "photo": ''
-        }
+        };
         await saveEntry(data);
         setInitialized();
-        navigation.navigate('Main')
-    }
+        navigation.navigate('Main');
+    };
 
     return(
         <View style={styles.container}>
@@ -48,8 +48,8 @@ const Welcome = () =>{
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: Colors.background,
+        flex: 1,
         padding: 10,
     },
     logo: {
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     },
     logoImage: {
         height: 150,
-        width: 150
-    }
-})
+        width: 150,
+    },
+});
 
 export default Welcome;

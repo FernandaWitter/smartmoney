@@ -1,13 +1,14 @@
 import React from 'react';
+import { View, StatusBar, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from '@react-native-vector-icons/material-icons';
 
+import useBalance from '../../hooks/useBalance';
+
+import Colors from '../../styles/colors';
 import BalancePanelLabel from './BalancePanelLabel/BalancePanelLabel';
 import BalancePanelChart from './BalancePanelChart/BalancePanelChart';
-import LinearGradient from 'react-native-linear-gradient';
-import Colors from '../../styles/colors';
-import Icon from '@react-native-vector-icons/material-icons';
-import useBalance from '../../hooks/useBalance';
 
 const BalancePanel = () => {
 	const navigation = useNavigation();

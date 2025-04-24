@@ -1,14 +1,14 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
+
+import useEntries from '../../hooks/useEntries';
 
 import BalanceLabel from '../../components/BalanceLabel/BalanceLabel';
 import EntryList from '../../components/EntryList/EntryList';
 import Colors from '../../styles/colors';
-import useEntries from '../../hooks/useEntries';
 
 const History = () => {
-
-	const [entries] = useEntries()
+	const [entries] = useEntries();
 
     return(
         <View style={styles.container}>
@@ -24,9 +24,9 @@ const History = () => {
 
 const styles = StyleSheet.create({
     container: {
-       flex: 1,
-        backgroundColor: Colors.background
-    }
+        backgroundColor: Colors.background,
+        flex: 1,
+    },
 });
 
 export default History;

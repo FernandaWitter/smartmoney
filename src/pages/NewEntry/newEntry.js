@@ -1,13 +1,11 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import BalanceLabel from '../../components/BalanceLabel/BalanceLabel';
 import NewEntryForm from '../../components/NewEntryForm/NewEntryForm';
 import Colors from '../../styles/colors';
 
-
 const NewEntry = (route) => { 
-
     return(
         <View style={styles.container}>
             <BalanceLabel/>
@@ -18,9 +16,9 @@ const NewEntry = (route) => {
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: Colors.background,
         flex: 1,
-        backgroundColor: Colors.background
-    }
+    },
 });
 
 export default NewEntry;

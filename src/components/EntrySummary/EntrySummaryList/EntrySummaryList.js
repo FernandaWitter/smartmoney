@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, FlatList, Text, StyleSheet} from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 import Colors from '../../../styles/colors';
@@ -31,10 +31,10 @@ const EntrySummaryList = ({summary}) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'flex-start',
         alignContent: 'flex-start',
-        backgroundColor: Colors.asphalt
+        alignItems: 'flex-start',
+        backgroundColor: Colors.asphalt,
+        flex: 1,
     },
     primaryItemContainer:{
         flex: 1,
@@ -47,9 +47,6 @@ const styles = StyleSheet.create({
         fontSize:20,
         color: Colors.white,
     },
-	itemText: {
-    	fontSize: 18,
-  	},
 });
 
 export default EntrySummaryList;

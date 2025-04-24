@@ -1,32 +1,31 @@
-import _ from 'lodash'
-import moment from 'moment'
+import _ from 'lodash';
+import moment from 'moment';
 
-import { connectToDatabase } from "../database/DBConfig"
-import { getCurrentBalance, getEntriesForTimePeriod } from "../database/services/entryService"
-
+import { connectToDatabase } from "../database/DBConfig";
+import { getCurrentBalance, getEntriesForTimePeriod } from "../database/services/entryService";
 
 export const getBalance = async() => {
     try {
-        const db = await connectToDatabase()
-        const balance = await getCurrentBalance(db)
-        return balance
+        const db = await connectToDatabase();
+        const balance = await getCurrentBalance(db);
+        return balance;
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
-}
+};
 
 export const getBalanceSummary = async(days) => {
     try {
-        const db = await connectToDatabase()
-        const balanceUntilDate = parseFloat(await getCurrentBalance(db, days))
-        let entriesUntilDate = await getEntriesForTimePeriod(db, days)
+        const db = await connectToDatabase();
+        const balanceUntilDate = parseFloat(await getCurrentBalance(db, days));
+        let entriesUntilDate = await getEntriesForTimePeriod(db, days);
         entriesUntilDate = _(entriesUntilDate).groupBy(entry => moment(entry.date).format('YYYYMMDD'))
             .map(entry => _.sumBy(entry, 'amount'))
             .map((amount, index, collection) => {
                 return (balanceUntilDate + _.sum(_.slice(collection, 0, index + 1)))
-            })
-        return entriesUntilDate
+            });
+        return entriesUntilDate;
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
-}
+};

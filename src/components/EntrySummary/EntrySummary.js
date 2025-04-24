@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import useCategorySumByDate from '../../hooks/useCategotySumByDate';
 import Container from '../Core/Container';
 import EntrySummaryChart from './EntrySummaryChart/EntrySummaryChart';
 import EntrySummaryList from './EntrySummaryList/EntrySummaryList';
@@ -16,22 +15,19 @@ const EntrySummary = ({categorySummary, days = 7, showMore = true}) => {
 			actionLabelText={`Last ${days} days`}
 			actionButtonText="More"
     	    showMore={showMore}
-			onPressActionButton={() => {navigation.navigate('Report')}}>
+			onPressActionButton={() => {navigation.navigate('Report');}}>
 			{categorySummary.length > 0 &&
-			<View style={styles.container}>
-				
+				<View style={styles.container}>
 					<EntrySummaryChart categorySummary={categorySummary}/>
-        	    	<EntrySummaryList summary={categorySummary}/>
-				
-				
-            </View>
+					<EntrySummaryList summary={categorySummary}/>
+				</View>
 			}
 			{categorySummary.length == 0 &&
-									<View style={styles.emptyContainer}>
-										<Text style={styles.emptyTextMain}>No expenditure records found.</Text>
-										<Text style={styles.emptyText}>Only spendings are shown in this chart. Try removing the category filter or changing the specified time period.</Text>
-									</View>
-								}
+				<View style={styles.emptyContainer}>
+					<Text style={styles.emptyTextMain}>No expenditure records found.</Text>
+					<Text style={styles.emptyText}>Only spendings are shown in this chart. Try removing the category filter or changing the specified time period.</Text>
+				</View>
+			}
     	</Container>
     );
 };
@@ -39,25 +35,25 @@ const EntrySummary = ({categorySummary, days = 7, showMore = true}) => {
 const styles = StyleSheet.create({
   	container: {
 		flexDirection: 'row',
+		marginHorizontal:10,
 		marginVertical: 15,
-		marginHorizontal:10
   	},
 	emptyContainer:{
-		marginVertical:10,
 		marginHorizontal: 15,
-		paddingBottom: 15
+		marginVertical:10,
+		paddingBottom: 15,
 	},
 	emptyTextMain: {
-		fontSize: 20,
 		color: Colors.champagne,
+		fontSize: 20,
+		marginVertical:20,
 		textAlign: 'center',
-		marginVertical:20
 	},
 	emptyText: {
-		fontSize: 18,
 		color: Colors.champagne,
-		textAlign: 'center'
+		fontSize: 18,
+		textAlign: 'center',
 	}
-})
+});
 
 export default EntrySummary;

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import Logo from '../../assets/logo.png'
-import Colors from '../../styles/colors';
 import MoneyInput from '../../components/Core/MoneyInput';
+import Colors from '../../styles/colors';
 
 const WelcomeBalanceInput = ({amount, onChangeValue}) =>{
     return(
@@ -19,8 +18,8 @@ const WelcomeBalanceInput = ({amount, onChangeValue}) =>{
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: Colors.background,
+        flex: 1,
         padding: 10,
     },
     logo: {
@@ -29,8 +28,8 @@ const styles = StyleSheet.create({
     },
     logoImage: {
         height: 150,
-        width: 150
-    }
-})
+        width: 150,
+    },
+});
 
 export default WelcomeBalanceInput;

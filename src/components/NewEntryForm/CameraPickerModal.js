@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Alert, Image, Modal, StyleSheet, Text, View } from 'react-native'
-import Colors from '../../styles/colors'
-import Icon from '@react-native-vector-icons/material-icons'
-import { Camera, useCameraDevice } from 'react-native-vision-camera'
+import React, { useEffect, useState } from 'react';
+import { Text, Alert, Modal, View, Image, StyleSheet } from 'react-native';
+import { Camera, useCameraDevice } from 'react-native-vision-camera';
+import Icon from '@react-native-vector-icons/material-icons';
+
+import Colors from '../../styles/colors';
 
 const CameraPickerModal = ({photo, showModal, onSave, onClose}) => {
-    const device = useCameraDevice('back')
+    const device = useCameraDevice('back');
 
     const [cameraPermission, setCameraPermission] = useState(null);
     const camera = useCameraDevice('back');
@@ -24,7 +25,7 @@ const CameraPickerModal = ({photo, showModal, onSave, onClose}) => {
           setCameraPermission(false);
         }
 
-        if(photo){setShowPreview(true)}
+        if(photo){setShowPreview(true);}
     };
     
     useEffect(() => {
@@ -63,7 +64,7 @@ const CameraPickerModal = ({photo, showModal, onSave, onClose}) => {
 
     const confirmPhoto = () => {
         setShowPreview(false);
-        onSave(capturedPhoto)
+        onSave(capturedPhoto);
     };
 
     const retakePhoto = () => {
@@ -110,55 +111,55 @@ const CameraPickerModal = ({photo, showModal, onSave, onClose}) => {
             <Icon name='close' size={30} color={Colors.white} onPress={onClose}
                 style={styles.buttonClose}/>
         </Modal>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     camera: {
         flex: 1,
     },
     buttonTakePicture: {
-        flex: 0,
         alignSelf: 'center',
-        position: 'absolute',
         bottom: 20,
-        marginTop: 10
+        flex: 0,
+        marginTop: 10,
+        position: 'absolute',
     },
     buttonClose: {
-        flex: 0,
-        position: 'absolute',
-        top: 20, 
-        left: 20,
+        backgroundColor: Colors.background,
         borderRadius: 150,
+        flex: 0,
+        left: 20,
         padding: 10,
-        backgroundColor: Colors.background
+        position: 'absolute',
+        top: 20,
     },
-    previewContainer:{ 
+    previewContainer:{
+        alignItems: 'center',
+        backgroundColor: Colors.background,
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
         padding: 10,
-        backgroundColor: Colors.background
     },
     previewImage:{ 
-        width: "80%",
-        height: "80%",
         flex:1,
-        marginBottom: 20 
+        height: "80%",
+        marginBottom: 20, 
+        width: "80%",
     },
     previewActionsContainer:{ 
+        backgroundColor: Colors.background,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: Colors.background,
     },
     previewActionsButton: {
-        marginVertical: 10,
+        alignContent: 'center',
+        alignSelf: 'center',
         marginHorizontal: 20,
+        marginVertical: 10,
         paddingHorizontal: 30,
         paddingVertical:10,
-        alignSelf: 'center',
-        alignContent: 'center',
     },
-})
+});
 
 export default CameraPickerModal;

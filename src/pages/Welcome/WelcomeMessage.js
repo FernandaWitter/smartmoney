@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import Colors from '../../styles/colors';
 
@@ -14,23 +14,23 @@ const WelcomeMessage = () =>{
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: Colors.background,
+        flex: 1,
         padding: 10,
     },
     title: {
         color: Colors.white,
         fontSize: 30,
-        textAlign: 'center',
         marginTop: 20,
+        textAlign: 'center',
     },
     message: {
         color: Colors.white,
         fontSize: 22,
-        textAlign: 'center',
-        marginTop: 10,
         marginBottom: 40,
-    }
-})
+        marginTop: 10,
+        textAlign: 'center',
+    },
+});
 
 export default WelcomeMessage;

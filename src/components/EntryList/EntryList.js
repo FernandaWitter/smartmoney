@@ -1,9 +1,9 @@
 import React from 'react';
+import { View, FlatList, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
 
-import EntryListItem from './EntryListItem/EntryListItem';
 import Container from '../Core/Container';
+import EntryListItem from './EntryListItem/EntryListItem';
 import Colors from '../../styles/colors';
 
 const EntryList = ({entryList, showMore, isReport = false, limitHeight, title}) => {
@@ -14,7 +14,7 @@ const EntryList = ({entryList, showMore, isReport = false, limitHeight, title}) 
 			actionButtonText="See all transactions"
 			showMore={showMore}
 			limitHeight={limitHeight}
-			onPressActionButton={() => {navigation.navigate('History')}}>
+			onPressActionButton={() => {navigation.navigate('History');}}>
 			<View style={[styles.container, isReport  ? {maxHeight: 250} : '']}>
 				{entryList.length > 0 &&
 				  <FlatList
@@ -40,25 +40,25 @@ const EntryList = ({entryList, showMore, isReport = false, limitHeight, title}) 
 
 const styles = StyleSheet.create({
 	container:{
-		marginTop:10,
 		marginBottom: 10,
+		marginTop:10,
 		paddingVertical:10,
 	},
 	emptyContainer:{
+		marginHorizontal: 15,
 		marginVertical:10,
-		marginHorizontal: 15
 	},
 	emptyTextMain: {
-		fontSize: 20,
 		color: Colors.champagne,
+		fontSize: 20,
+		marginVertical:20,
 		textAlign: 'center',
-		marginVertical:20
 	},
 	emptyText: {
-		fontSize: 18,
 		color: Colors.champagne,
+		fontSize: 18,
 		textAlign: 'center'
 	}
-})
+});
 
 export default EntryList;

@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import Svg, { Circle, Rect } from 'react-native-svg';
+import Icon from '@react-native-vector-icons/material-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import Colors from '../../../styles/colors';
-import Svg, { Circle, Rect } from 'react-native-svg';
-import Icon from '@react-native-vector-icons/material-icons';
 
 const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
   	const navigation = useNavigation();
@@ -16,12 +16,13 @@ const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
 		<View>
 			<TouchableOpacity
 				onPress={() =>{
-				navigation.navigate('NewEntry', {entryID: entry.id})
+				navigation.navigate('NewEntry', {entryID: entry.id});
 			}}>
 				<View style={styles.primaryItemContainer}>
 					<Svg height='50' width='30'>
 					{showBulletLine &&
-						<Rect x='9' y={bulletLineY} width='1.5' height={bulletLineHeight} fill={Colors.background} />
+						<Rect x='9' y={bulletLineY} width='1.5' height={bulletLineHeight} 
+						fill={Colors.background} />
 					}
 					<Circle cx='10' cy='25' r='8'
 						stroke={Colors.background}
@@ -46,8 +47,7 @@ const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
 					<View>
 						<Text style={styles.primaryItemValue}>$ {(entry.amount).toFixed(2)}</Text>
 					</View>
-				</View>
-					
+				</View>	
 			</TouchableOpacity>
 		</View>
 	);
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 	},
 	primaryItemValue:{
-		fontSize:20,
 		color: Colors.white,
+		fontSize:20,
 		marginTop: 5,
 	},
 	secondaryItemContainer: {
@@ -71,16 +71,16 @@ const styles = StyleSheet.create({
 		flexDirection: 'row'
 	},
 	secondaryItemValueIcon:{
+		color: Colors.metal,
 		flexGrow: 0,
 		fontSize: 15,
-		color: Colors.metal,
-		marginTop: 2,
 		marginRight: 2,
+		marginTop: 2,
 	},
 	secondaryItemValue: {
+		color: Colors.metal,
 		flexGrow: 0,
 		fontSize: 14,
-		color: Colors.metal,
 		marginRight: 10,
 	}
 });

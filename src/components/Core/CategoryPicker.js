@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Modal, View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 
 import useCategories from '../../hooks/useCategories';
+
 import ActionFooter, {PrimaryActionButton, SecondaryActionButton} from './ActionFooter';
 import Colors from '../../styles/colors';
 
 const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}) => {
-    const [categoryList] = useCategories()
+    const [categoryList] = useCategories();
 
-    return(
-       
+    return(      
         <Modal animationType='slide' transparent={false} visible={modalVisible} style={borderRadius=10}>
             <View style={styles.modal}>
                 <Text style={styles.modalLabel}>Select a category</Text>
@@ -31,61 +31,58 @@ const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}
             </View>
             <View style={styles.footer}>
                 <ActionFooter>
-                {onClearFilter &&
+                    {onClearFilter &&
                         <SecondaryActionButton title={'Clear filter'} onPress={onClearFilter}/>
                     }
                     <PrimaryActionButton title={'Close'} onPress={onClose}/>
-                    
                 </ActionFooter>
             </View>
         </Modal>
-
     );
 };
 
 const styles = StyleSheet.create({
-
     modal:{
-        flex: 1,
         backgroundColor: Colors.background,
+        flex: 1,
     },
     modalLabel:{
-        fontSize: 24,
         color: Colors.white,
-        textAlign: 'center',
+        fontSize: 24,
         padding: 10,
+        textAlign: 'center',
     },
     modalItem: {
         backgroundColor: Colors.asphalt,
         borderRadius: 15,
-        marginVertical:10,
         marginHorizontal: 20,
-        padding: 20
+        marginVertical:10,
+        padding: 20,
     },
     modalItemText:{
+        color: Colors.white,
         flex: 1,
         fontSize: 28,
-        color: Colors.white,
         textAlign: 'center',
     },
     closeButton: {
+        alignSelf: 'center',
         backgroundColor: Colors.background,
-        borderWidth: 2,
         borderColor: Colors.red,
         borderRadius: 15,
-        marginVertical: 10,
+        borderWidth: 2,
         marginHorizontal: 20,
+        marginVertical: 10,
         padding: 10,
-        alignSelf: 'center'
     },
     closeButtonText:{
-        fontSize: 22,
         color: Colors.red,
-        textAlign: 'center'
+        fontSize: 22,
+        textAlign: 'center',
     },
     footer:{
         flex: 1,
-        maxHeight: 80
+        maxHeight: 80,
     }
 });
 
