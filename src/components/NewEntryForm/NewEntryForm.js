@@ -29,14 +29,21 @@ const NewEntryForm = ({route}) => {
         address: '',
         photo:'',
         isPhotoChanged: false
-    })
+    });
 
-    //TODO: Validate input data
     const isValid = () => {
-        if(parseFloat(amount) != 0){
-            return true;
+        let isValid = true
+        let err = []
+        if(!(currEntry.amount > 0) && !entry.amount){
+            err.push('amount')
+            isValid = false
         }
-        return false;
+        if(!(currEntry.category > 0) && !(entry.category > 0)){
+            err.push('category')
+            isValid = false
+        }
+        setErrors(err)
+        return isValid;
     };
     
     const onClose = () => {
@@ -44,15 +51,15 @@ const NewEntryForm = ({route}) => {
     };
 
     const onSave = async () => {
-        let date = entry.date
+        let date = entry.date;
         
         if(!entry.date || currEntry.isDateChanged){
-            date = moment(currEntry.date).format('YYYY-MM-DD HH:mm')
-        }
+            date = moment(currEntry.date).format('YYYY-MM-DD HH:mm');
+        };
         
-        if(isValid){
-            const amountInformed = parseFloat(currEntry.amount || entry.amount)
-            const catSelected = parseInt(currEntry.category|| entry.category)
+        if(isValid()){
+            const amountInformed = parseFloat(currEntry.amount || entry.amount);
+            const catSelected = parseInt(currEntry.category|| entry.category);
             const data = {
                 "id": entry.id,
                 "category": catSelected,
@@ -61,45 +68,49 @@ const NewEntryForm = ({route}) => {
                 "date": date,
                 "address": currEntry.address || entry.address || '',
                 "photo": currEntry.photo || entry.photo || ''
-            }
+            };
             if (entryID.entryID > 0){
-                await updateEntry(data)
+                await updateEntry(data);
             } else {
                 await saveEntry(data);
-            }
+            };
             onClose();
-        } else {}
+        }
     };
     
     const onDelete = async () => {
         if (entryID.entryID > 0){ 
-            await deleteEntry(entryID.entryID)
+            await deleteEntry(entryID.entryID);
             onClose();
         }
     };
 
     const onSelectCategory = (item) => {
         if(item.id > 0){
-            setCurrEntry(() => ({ ...currEntry, category: item.id, categoryText: item.description }))
+            setErrors(errors.filter(el => (el != 'category')));
+            setCurrEntry(() => ({ ...currEntry, category: item.id, categoryText: item.description }));
         }
-        setModalVisible(false)
-    }
+        setModalVisible(false);
+    };
 
     const onSetAmount = (val) => {
-        setCurrEntry(() => ({ ...currEntry, amount: val}))
-    }
+        if(val > 0){
+            setErrors(errors.filter(el => (el != 'amount')));
+        }
+        setCurrEntry(() => ({ ...currEntry, amount: val}));
+    };
 
     const onSetDate = (date) => {
-        setCurrEntry(() => ({ ...currEntry, date: date, isDateChanged: true}))
-    }
+        setCurrEntry(() => ({ ...currEntry, date: date, isDateChanged: true}));
+    };
 
     const onSetAddress = (location) => {
-        setCurrEntry(() => ({ ...currEntry, address: location}))
-    }
+        setCurrEntry(() => ({ ...currEntry, address: location}));
+    };
 
     const onChangePhoto = (capturedPhoto) => {
-        setCurrEntry(() => ({ ...currEntry, photo: capturedPhoto, isPhotoChanged: true}))
-    }
+        setCurrEntry(() => ({ ...currEntry, photo: capturedPhoto, isPhotoChanged: true}));
+    };
 
     return(
         <View style={styles.container}>
@@ -107,9 +118,12 @@ const NewEntryForm = ({route}) => {
             {((entry.category && entryID.entryID) || (entryID.entryID == 0)) &&
                 <View>
                     <Text style={styles.pickerLabel}>Category</Text>
-                        <TouchableOpacity style={styles.pickerButton} onPress={() => {setModalVisible(true)}}>            
-                            <Text style={styles.pickerButtonText}>{currEntry.categoryText || entry.categoryText}</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity style={[styles.pickerButton, (errors.includes('category') ? {borderColor: Colors.red, borderWidth: 2} : '')]} onPress={() => {setModalVisible(true)}}>            
+                        <Text style={styles.pickerButtonText}>{currEntry.categoryText || entry.categoryText}</Text>
+                    </TouchableOpacity>
+                    {errors.includes('category') &&
+                        <Text style={styles.errorMessage}>Category is mandatory.</Text>
+                    }
                     <CategoryPicker 
                         modalVisible={modalVisible}
                         onChangeCategory={onSelectCategory}
@@ -120,7 +134,12 @@ const NewEntryForm = ({route}) => {
                 <MoneyInput
                     value={entry.amount}
                     onChangeValue={onSetAmount}
-                    label='Amount' />    
+                    label='Amount'
+                    style={errors.includes('amount') ? {borderColor: Colors.red, borderWidth: 2} : ''}
+                    />   
+                {errors.includes('amount') &&
+                    <Text style={styles.errorMessage}>The amount must be greater than $ 0.00.</Text>
+                } 
                 <View>
                     <Text style={styles.label}>Description</Text>
                     <TextInput 
