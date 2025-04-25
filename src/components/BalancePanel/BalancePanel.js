@@ -9,18 +9,22 @@ import useBalance from '../../hooks/useBalance';
 import Colors from '../../styles/colors';
 import BalancePanelLabel from './BalancePanelLabel/BalancePanelLabel';
 import BalancePanelChart from './BalancePanelChart/BalancePanelChart';
+import useBalanceSumByDate from '../../hooks/useBalanceSumByDate';
 
 const BalancePanel = () => {
 	const navigation = useNavigation();
     const [balance] = useBalance();
+	const [balanceSum] = useBalanceSumByDate(7);
 
-    return(
+	return(
     	<View style={styles.container}>
 			<StatusBar barStyle='light-content' backgroundColor={Colors.violet} />
         	<LinearGradient colors={[Colors.violet, Colors.blue]}
             	style={styles.panel}>
             	<BalancePanelLabel currBalance={balance}/>
-            	<BalancePanelChart/>
+				{balanceSum.length > 0 &&
+            		<BalancePanelChart balanceSum={balanceSum}/>
+				}
           	</LinearGradient>
           	<TouchableOpacity onPress={() => {navigation.navigate('NewEntry')}}
             	style={styles.button} >

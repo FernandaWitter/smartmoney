@@ -17,12 +17,13 @@ export const getBalance = async() => {
 export const getBalanceSummary = async(days) => {
     try {
         const db = await connectToDatabase();
-        const balanceUntilDate = parseFloat(await getCurrentBalance(db, days));
+        let balanceUntilDate = parseFloat(await getCurrentBalance(db, days));
         let entriesUntilDate = await getEntriesForTimePeriod(db, days);
         entriesUntilDate = _(entriesUntilDate).groupBy(entry => moment(entry.date).format('YYYYMMDD'))
             .map(entry => _.sumBy(entry, 'amount'))
             .map((amount, index, collection) => {
-                return (balanceUntilDate + _.sum(_.slice(collection, 0, index + 1)))
+                balanceUntilDate = isNaN(balanceUntilDate) ? 0 : balanceUntilDate;
+                return (parseFloat(balanceUntilDate + _.sum(_.slice(collection, 0, index + 1))))
             });
         return entriesUntilDate;
     } catch (error) {

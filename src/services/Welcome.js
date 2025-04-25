@@ -8,3 +8,7 @@ export const isInitialized = async() => {
 export const setInitialized = async() => {
     await AsyncStorage.setItem('openingBalance', 'true');
 };
+
+export const clearInitialized = async() => {
+    await AsyncStorage.clear();
+};

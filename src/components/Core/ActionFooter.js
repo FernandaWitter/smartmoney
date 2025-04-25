@@ -34,13 +34,14 @@ export const SecondaryActionButton = ({title, onPress}) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.background,
-        flex: 1,
+        flex: 0,
         flexDirection: 'row',
-        justifyContent: 'space-around',       
+        justifyContent: 'space-around',  
+        bottom: 5,   
     },
     primaryButton:{
         alignSelf: 'center',
-        backgroundColor: Colors.backgroundColor,
+        backgroundColor: Colors.background,
         borderColor: Colors.green,
         borderRadius: 15,
         borderWidth: 2,

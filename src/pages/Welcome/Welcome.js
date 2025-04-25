@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, StatusBar, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 
@@ -7,8 +7,8 @@ import { saveEntry } from '../../services/Entries';
 import { setInitialized } from '../../services/Welcome';
 
 import Logo from '../../assets/logo.png';
-import WelcomeMessage from './WelcomeMessage';
-import WelcomeBalanceInput from './WelcomeBalanceInput';
+import WelcomeMessage from '../../components/WelcomePage/WelcomeMessage';
+import WelcomeBalanceInput from '../../components/WelcomePage/WelcomeBalanceInput';
 import ActionFooter, { PrimaryActionButton } from '../../components/Core/ActionFooter';
 import Colors from '../../styles/colors';
 
@@ -28,12 +28,13 @@ const Welcome = () =>{
             "photo": ''
         };
         await saveEntry(data);
-        setInitialized();
+        await setInitialized();
         navigation.navigate('Main');
     };
 
     return(
         <View style={styles.container}>
+            <StatusBar barStyle='light-content' backgroundColor={Colors.background} />
             <View style={styles.logo}>
                 <Image source={Logo} style={styles.logoImage}/>
             </View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import MoneyInput from '../../components/Core/MoneyInput';
+import MoneyInput from '../Core/MoneyInput';
 import Colors from '../../styles/colors';
 
 const WelcomeBalanceInput = ({amount, onChangeValue}) =>{

@@ -2,20 +2,20 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AreaChart } from 'react-native-svg-charts'
 
-import useBalanceSumByDate from '../../../hooks/useBalanceSumByDate';
+const BalancePanelChart = (balanceSum) => {
 
-const BalancePanelChart = () => {
-    const [balanceSum] = useBalanceSumByDate();
     return(
         <View style={styles.container}>
+            {balanceSum.balanceSum.length > 0 &&
             <AreaChart
                 style={styles.chart}
-                data={balanceSum}
+                data={balanceSum.balanceSum}
                 svg={{fill: 'rgba(0,0,0, .1)',
                     stroke: 'rgba(0,0,0, .1)',
                     strokeWidth: 1}}
                 contentInset={{top: 0, bottom: 0}}
             />
+            }
         </View>
     );
 };

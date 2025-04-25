@@ -1,14 +1,25 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import useEntries from '../../hooks/useEntries';
 
 import BalanceLabel from '../../components/BalanceLabel/BalanceLabel';
 import EntryList from '../../components/EntryList/EntryList';
+import ActionFooter, { PrimaryActionButton, SecondaryActionButton } from '../../components/Core/ActionFooter';
 import Colors from '../../styles/colors';
 
 const History = () => {
+    const navigation = useNavigation();
 	const [entries] = useEntries();
+
+    const onClose = () => {
+        navigation.goBack();
+    };
+
+    const onReset = () =>{
+        navigation.navigate('Reset')
+    };
 
     return(
         <View style={styles.container}>
@@ -18,6 +29,10 @@ const History = () => {
 					<EntryList entryList={entries} showMore={false} limitHeight={false} title={'Transaction history'}/>                        
 				}
 			</View>
+            <ActionFooter>
+                <SecondaryActionButton title='Delete all' onPress={onReset}/>
+                <PrimaryActionButton title='Close' onPress={onClose}/>
+            </ActionFooter>
         </View>
     );
 };

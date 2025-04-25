@@ -39,7 +39,7 @@ export const createTables = async(db) => {
     FOREIGN KEY(category) REFERENCES ${CATEGORY_TABLE}(id));`;
 
     const insertCatQuery = `INSERT OR REPLACE INTO ${CATEGORY_TABLE} (id, name, color, isDefault, isCredit, catOrder) VALUES
-    (1, "Credit", '${Colors.black}', false, true, 1),
+    (1, "Credit", '${Colors.champagne}', false, true, 1),
     (2, "Food", '${Colors.red}', true, false, 2),
     (3, "Gas", '${Colors.yellow}', false, false, 3),
     (4, "Rent", '${Colors.violet}', false, false, 4),
@@ -50,6 +50,7 @@ export const createTables = async(db) => {
         await db.executeSql(catQuery, error => { console.error(error) });
         await db.executeSql(entriesQuery, error => { console.error(error) });
         await db.executeSql(insertCatQuery, error => { console.error(error) });
+        console.log('Tables created')
     } catch (error) {
         console.error(error);
         throw Error(`Failed to create tables`);

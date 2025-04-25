@@ -7,6 +7,7 @@ import Report from './pages/Report/Report';
 import History from './pages/History/History';
 import Welcome from './pages/Welcome/Welcome';
 import Loading from './pages/Loading/Loading';
+import Reset from './pages/Reset/Reset';
 
 const Routes = createStaticNavigation(
     createNativeStackNavigator({
@@ -14,9 +15,10 @@ const Routes = createStaticNavigation(
             Main,
             NewEntry,
             Report,
-            History, 
+            History,
             Welcome,
-            Loading
+            Loading,
+            Reset
         },
         screenOptions: {
             headerShown: false
@@ -26,13 +28,4 @@ const Routes = createStaticNavigation(
     })
 );
 
-/*
-const RootStack = createNativeStackNavigator({
-    screens: {
-        Home: Main,
-    },
-});
-
-const Routes = createStaticNavigation(RootStack);
-*/
 export default Routes;
