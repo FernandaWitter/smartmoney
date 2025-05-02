@@ -20,7 +20,7 @@ const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}
                         <TouchableOpacity style={styles.modalItem}
                             onPress={() => {
                                 return onChangeCategory(item.item);
-                            }} id={(item.item.description)+'Btn'}>
+                            }} testID={(item.item.description)+'Btn'}>
                             <Text style={[styles.modalItemText, {color: item.item.color}]}>
                                 {item.item.description}
                             </Text>
@@ -32,9 +32,9 @@ const CategoryPicker = ({modalVisible, onChangeCategory, onClose, onClearFilter}
             <View style={styles.footer}>
                 <ActionFooter>
                     {onClearFilter &&
-                        <SecondaryActionButton title={'Clear filter'} onPress={onClearFilter} id={'clearFilterBtn'}/>
+                        <SecondaryActionButton title={'Clear filter'} onPress={onClearFilter} testID={'clearFilterBtn'}/>
                     }
-                    <PrimaryActionButton title={'Close'} onPress={onClose} id={'closeFilterBtn'}/>
+                    <PrimaryActionButton title={'Close'} onPress={onClose} testID={'closeFilterBtn'}/>
                 </ActionFooter>
             </View>
         </Modal>

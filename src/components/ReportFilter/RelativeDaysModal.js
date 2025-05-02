@@ -16,7 +16,7 @@ const RelativeDaysModal = ({isVisible, onConfirm, onCancel}) =>{
                     data={relativeDays}
                     renderItem={(item) => {
                         return(
-                            <TouchableOpacity style={styles.modalItem} id={item.item + 'DaysBtn'}
+                            <TouchableOpacity style={styles.modalItem} testID={item.item + 'DaysBtn'}
                                 onPress={() => {onConfirm(item.item)}}>
                                 <Text style={styles.modalInnerText}>{`${item.item} day(s)`}</Text>
                             </TouchableOpacity>)
@@ -25,7 +25,7 @@ const RelativeDaysModal = ({isVisible, onConfirm, onCancel}) =>{
             </View>
             <View style={styles.footer}>
                 <ActionFooter>
-                    <PrimaryActionButton title='Close' onPress={onCancel} id={'closeDateFilterBtn'}/>
+                    <PrimaryActionButton title='Close' onPress={onCancel} testID={'closeDateFilterBtn'}/>
                 </ActionFooter>
             </View>
         </Modal>

@@ -15,7 +15,7 @@ const Container = ({title, actionLabelText = '', actionButtonText, onPressAction
                     {onPressActionButton && 
                         <TouchableOpacity style={styles.actionButton}
                             onPress={() => {onPressActionButton && onPressActionButton();}}
-                            id={actionLabelText ? 'reportBtn' : 'historyBtn'}>
+                            testID={actionLabelText ? 'reportBtn' : 'historyBtn'}>
                             <Icon name='insert-chart' style={styles.actionButtonIcon}/>
                             <Text style={styles.actionButtonText}>{actionButtonText}</Text>
                         </TouchableOpacity>    

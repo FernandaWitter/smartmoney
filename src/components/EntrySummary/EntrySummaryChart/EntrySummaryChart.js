@@ -21,7 +21,7 @@ const EntrySummaryChart = ({categorySummary = []}) => {
             <PieChart
                 style={styles.chart}
                 data={pieChartData}
-                id='expendituresChart'
+                testID='expendituresChart'
             />
         </View>
     );

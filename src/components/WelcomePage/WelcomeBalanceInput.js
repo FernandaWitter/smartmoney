@@ -11,7 +11,7 @@ const WelcomeBalanceInput = ({amount, onChangeValue}) =>{
                 value={amount}
                 onChangeValue={onChangeValue}
                 label='Initial balance'
-                id='initialBalanceInput'
+                testID='initialBalanceInput'
             />
         </View>
     );

@@ -31,7 +31,7 @@ const ReportFilter = ({days, onChangeDays, category, onChangeCategory}) => {
 
     return(
         <View style={styles.container}>
-            <TouchableOpacity style={styles.filterButton} id='relativeDaysFilterSelect'
+            <TouchableOpacity style={styles.filterButton} testID='relativeDaysFilterSelect'
                 onPress={() => { setRelativeDaysModalVisible(true)}}>
                 <Text style={styles.filterButtonText}>Last {days} day(s)</Text>
                 <Icon name='keyboard-arrow-down' size={20} color={Colors.champagneDark}/>
@@ -39,7 +39,7 @@ const ReportFilter = ({days, onChangeDays, category, onChangeCategory}) => {
                     onConfirm={onRelativeDaysPress}
                     onCancel={onClose}/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton} id='categoryFilterSelect'
+            <TouchableOpacity style={styles.filterButton} testID='categoryFilterSelect'
                 onPress={() => {setCategoryModalVisible(true)}}>
                 <Text style={styles.filterButtonText}>{category}</Text>
                 <Icon name='keyboard-arrow-down' size={20} color={Colors.champagneDark}/>

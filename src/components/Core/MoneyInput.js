@@ -12,7 +12,7 @@ const MoneyInput = ({value, onChangeValue, label, style}) => {
             <TextInputMask
                 style={[styles.input, style]}
                 type={'money'}
-                id='amountInput'
+                testID='amountInput'
                 options={{
                     precision: 2,
                     separator: '.',

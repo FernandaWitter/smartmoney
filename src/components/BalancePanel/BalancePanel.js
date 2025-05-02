@@ -27,7 +27,7 @@ const BalancePanel = () => {
 				}
           	</LinearGradient>
           	<TouchableOpacity onPress={() => {navigation.navigate('NewEntry')}}
-            	style={styles.button} id='addEntryBtn'>
+            	style={styles.button} testID='addEntryBtn'>
             	<Icon name='add' size={30} color={Colors.white}/>
           	</TouchableOpacity>
         </View>

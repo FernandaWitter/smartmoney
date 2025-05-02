@@ -122,11 +122,11 @@ const NewEntryForm = ({route}) => {
                 <View>
                     <Text style={styles.pickerLabel}>Category</Text>
                     <TouchableOpacity style={[styles.pickerButton, (errors.includes('category') ? {borderColor: Colors.red, borderWidth: 2} : '')]} 
-                        onPress={() => {setModalVisible(true)}} id='categorySelect'>
+                        onPress={() => {setModalVisible(true)}} testID='categorySelect'>
                         <Text style={styles.pickerButtonText}>{currEntry.categoryText || entry.categoryText}</Text>
                     </TouchableOpacity>
                     {errors.includes('category') &&
-                        <Text style={styles.errorMessage} id='categoryErrorMsg'>Category is mandatory.</Text>
+                        <Text style={styles.errorMessage} testID='categoryErrorMsg'>Category is mandatory.</Text>
                     }
                     <CategoryPicker 
                         modalVisible={modalVisible}
@@ -142,14 +142,14 @@ const NewEntryForm = ({route}) => {
                     style={errors.includes('amount') ? {borderColor: Colors.red, borderWidth: 2} : ''}
                     />   
                 {errors.includes('amount') &&
-                    <Text style={styles.errorMessage} id='amountErrorMsg'>The amount must be greater than $ 0.00.</Text>
+                    <Text style={styles.errorMessage} testID='amountErrorMsg'>The amount must be greater than $ 0.00.</Text>
                 } 
                 <View>
                     <Text style={styles.label}>Description</Text>
                     <TextInput 
                         style={styles.input} value={currEntry.isDescriptionChanged? currEntry.description : entry.description}
                         onChangeText={(text) => { setCurrEntry(() => ({ ...currEntry, description: text, isDescriptionChanged: true }))}}
-                        multiline={true} id='descriptionInput'/>
+                        multiline={true} testID='descriptionInput'/>
                 </View>
                 {((entry.date && entryID.entryID) || (entryID.entryID == 0)) &&
                     <View style={styles.formActionContainer}>
@@ -163,7 +163,7 @@ const NewEntryForm = ({route}) => {
                 {(entryID.entryID > 0) &&
                     <EntryDeleteAction onOkPress={onDelete}/>
                 }
-                <PrimaryActionButton title="Save" onPress={onSave} id={'saveEntry'}/>
+                <PrimaryActionButton title="Save" onPress={onSave} testID={'saveEntry'}/>
             </ActionFooter>            
         </View>
     );

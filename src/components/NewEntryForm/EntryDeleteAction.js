@@ -17,7 +17,7 @@ const EntryDeleteAction = ({onOkPress}) => {
 
     return(
         <View>
-            <TouchableOpacity style={styles.button} onPress={onDelete} id='deleteEntryBtn'>
+            <TouchableOpacity style={styles.button} onPress={onDelete} testID='deleteEntryBtn'>
                 <Text style={styles.buttonText}>Delete</Text>
             </TouchableOpacity>
         </View>

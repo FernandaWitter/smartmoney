@@ -99,17 +99,17 @@ const CameraPickerModal = ({photo, showModal, onSave, onClose}) => {
                         style={styles.previewImage} resizeMode='contain'/>
                     <View style={styles.previewActionsContainer}>
                         <Icon name='close' size={40} color={Colors.red} onPress={retakePhoto}
-                            style={styles.previewActionsButton} id='retakePhotoBtn'/>
+                            style={styles.previewActionsButton} testID='retakePhotoBtn'/>
                         <Icon name='check' size={40} color={Colors.green} onPress={confirmPhoto}
-                            style={styles.previewActionsButton} id='confirmPhotoBtn'/>
+                            style={styles.previewActionsButton} testID='confirmPhotoBtn'/>
                     </View>          
                 </View>
             ) : (
                 <Icon name='photo-camera' size={40} color={Colors.green} onPress={takePhoto}
-                    style={styles.previewActionsButton} id='takePhotoBtn'/>
+                    style={styles.previewActionsButton} testID='takePhotoBtn'/>
             )}
             <Icon name='close' size={30} color={Colors.white} onPress={onClose}
-                style={styles.buttonClose} id='closeCameraBtn'/>
+                style={styles.buttonClose} testID='closeCameraBtn'/>
         </Modal>
     );
 };

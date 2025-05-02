@@ -30,8 +30,8 @@ const History = () => {
 				}
 			</View>
             <ActionFooter>
-                <SecondaryActionButton title='Delete all' onPress={onReset} id={'deleteAllEntriesBtn'}/>
-                <PrimaryActionButton title='Close' onPress={onClose} id={'closeHistoryBtn'}/>
+                <SecondaryActionButton title='Delete all' onPress={onReset} testID={'deleteAllEntriesBtn'}/>
+                <PrimaryActionButton title='Close' onPress={onClose} testID={'closeHistoryBtn'}/>
             </ActionFooter>
         </View>
     );

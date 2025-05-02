@@ -14,7 +14,7 @@ const EntryListItem = ({entry, isFirstItem, isLastItem}) => {
 
 	return(
 		<View>
-			<TouchableOpacity id={(entry.description).replace(' ', '')+'Btn'}
+			<TouchableOpacity testID={(entry.description).replace(' ', '')+'Btn'}
 				onPress={() =>{
 				navigation.navigate('NewEntry', {entryID: entry.id});
 			}}>
