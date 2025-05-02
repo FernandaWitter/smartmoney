@@ -7,7 +7,7 @@ const BalancePanelLabel = ({currBalance}) => {
     return(
         <View style={styles.balanceContainer}>
             <Text style={styles.balanceLabel}>Current balance</Text>
-            <Text style={styles.balanceValue}>{currBalance}</Text>
+            <Text style={styles.balanceValue} id='balancePanelCurrentBalance'>{currBalance}</Text>
         </View>
     );
 };

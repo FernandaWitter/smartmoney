@@ -121,11 +121,12 @@ const NewEntryForm = ({route}) => {
             {((entry.category && entryID.entryID) || (entryID.entryID == 0)) &&
                 <View>
                     <Text style={styles.pickerLabel}>Category</Text>
-                    <TouchableOpacity style={[styles.pickerButton, (errors.includes('category') ? {borderColor: Colors.red, borderWidth: 2} : '')]} onPress={() => {setModalVisible(true)}}>            
+                    <TouchableOpacity style={[styles.pickerButton, (errors.includes('category') ? {borderColor: Colors.red, borderWidth: 2} : '')]} 
+                        onPress={() => {setModalVisible(true)}} id='categorySelect'>
                         <Text style={styles.pickerButtonText}>{currEntry.categoryText || entry.categoryText}</Text>
                     </TouchableOpacity>
                     {errors.includes('category') &&
-                        <Text style={styles.errorMessage}>Category is mandatory.</Text>
+                        <Text style={styles.errorMessage} id='categoryErrorMsg'>Category is mandatory.</Text>
                     }
                     <CategoryPicker 
                         modalVisible={modalVisible}
@@ -141,14 +142,14 @@ const NewEntryForm = ({route}) => {
                     style={errors.includes('amount') ? {borderColor: Colors.red, borderWidth: 2} : ''}
                     />   
                 {errors.includes('amount') &&
-                    <Text style={styles.errorMessage}>The amount must be greater than $ 0.00.</Text>
+                    <Text style={styles.errorMessage} id='amountErrorMsg'>The amount must be greater than $ 0.00.</Text>
                 } 
                 <View>
                     <Text style={styles.label}>Description</Text>
                     <TextInput 
                         style={styles.input} value={currEntry.isDescriptionChanged? currEntry.description : entry.description}
                         onChangeText={(text) => { setCurrEntry(() => ({ ...currEntry, description: text, isDescriptionChanged: true }))}}
-                        multiline={true} />
+                        multiline={true} id='descriptionInput'/>
                 </View>
                 {((entry.date && entryID.entryID) || (entryID.entryID == 0)) &&
                     <View style={styles.formActionContainer}>
@@ -162,7 +163,7 @@ const NewEntryForm = ({route}) => {
                 {(entryID.entryID > 0) &&
                     <EntryDeleteAction onOkPress={onDelete}/>
                 }
-                <PrimaryActionButton title="Save" onPress={onSave}/>
+                <PrimaryActionButton title="Save" onPress={onSave} id={'saveEntry'}/>
             </ActionFooter>            
         </View>
     );

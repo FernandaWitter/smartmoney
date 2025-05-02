@@ -14,6 +14,7 @@ const BalancePanelChart = (balanceSum) => {
                     stroke: 'rgba(0,0,0, .1)',
                     strokeWidth: 1}}
                 contentInset={{top: 0, bottom: 0}}
+                id='balancePanelChart'
             />
             }
         </View>

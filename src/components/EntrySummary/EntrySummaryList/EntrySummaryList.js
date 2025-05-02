@@ -8,6 +8,7 @@ const EntrySummaryList = ({summary}) => {
     return(
         <View style={styles.container}>
             <FlatList 
+                id='categorySummaryList'
                 data={summary}
                 renderItem={({item}) => (
                     (<View style>

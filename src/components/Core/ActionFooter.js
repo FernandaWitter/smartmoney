@@ -11,20 +11,20 @@ const ActionFooter = ({children}) => {
     );
 };
 
-export const PrimaryActionButton = ({title, onPress}) => {
+export const PrimaryActionButton = ({title, onPress, id}) => {
     return(
         <View>
-            <TouchableOpacity style={styles.primaryButton} onPress={onPress}>
+            <TouchableOpacity style={styles.primaryButton} onPress={onPress} id={id || 'primaryBtn'}>
                 <Text style={styles.primaryButtonText}>{title}</Text>
             </TouchableOpacity>
         </View>
     );
 };
 
-export const SecondaryActionButton = ({title, onPress}) => {
+export const SecondaryActionButton = ({title, onPress, id}) => {
     return(
         <View>
-            <TouchableOpacity style={styles.secondaryButton} onPress={onPress}>
+            <TouchableOpacity style={styles.secondaryButton} onPress={onPress} id={id || 'secondaryBtn'}>
                 <Text style={styles.secondaryButtonText}>{title}</Text>
             </TouchableOpacity>
         </View>

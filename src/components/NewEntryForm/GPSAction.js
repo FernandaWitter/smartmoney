@@ -52,7 +52,8 @@ const GPSAction = ({entry, onSetAddress, edit}) => {
     
     return(
         <View>
-            <TouchableOpacity style={[styles.button, (edit ? {backgroundColor: Colors.blue} : {backgroundColor: Colors.asphalt})]} onPress={onOpen}>
+            <TouchableOpacity style={[styles.button, (edit ? {backgroundColor: Colors.blue} : {backgroundColor: Colors.asphalt})]} 
+                onPress={onOpen} id='GPSBtn'>
                 <Icon name='location-pin' size={30} color={Colors.white}/>
             </TouchableOpacity>
 
@@ -62,16 +63,16 @@ const GPSAction = ({entry, onSetAddress, edit}) => {
                     <TextInput 
                         style={styles.input} value={currLocation}
                         onChangeText={(text) => { setCurrLocation(text)}}
-                        multiline numberOfLines={5}/>
-                    <TouchableOpacity onPress={onClearAll}>
+                        multiline numberOfLines={5} id='locationInput'/>
+                    <TouchableOpacity onPress={onClearAll} id='clearLocationInputBtn'>
                         <Text style={styles.clearBtn}>Clear</Text>
                     </TouchableOpacity>
                 </View>
                 
                 <View style={styles.footer}>
                     <ActionFooter>
-                        <SecondaryActionButton title={'Cancel'} onPress={onClose}/>
-                        <PrimaryActionButton title={'Save'} onPress={onSave}/>                    
+                        <SecondaryActionButton title={'Cancel'} onPress={onClose} id={'closeLocationBtn'}/>
+                        <PrimaryActionButton title={'Save'} onPress={onSave} id={'saveLocationBtn'}/>                    
                     </ActionFooter>
                 </View>
             </Modal>

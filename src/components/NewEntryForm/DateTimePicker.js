@@ -10,7 +10,8 @@ const EntryDateTimePicker = ({value, onChange, edit}) => {
 
     return(
         <View>
-            <TouchableOpacity style={[styles.button, (edit ? {backgroundColor: Colors.blue} : {backgroundColor: Colors.asphalt})]} onPress={() => {setOpen(true)}}>
+            <TouchableOpacity style={[styles.button, (edit ? {backgroundColor: Colors.blue} : {backgroundColor: Colors.asphalt})]} 
+                onPress={() => {setOpen(true)}} id='datePickerBtn'>
                 <Icon name='today' size={30} color={Colors.white}/>
             </TouchableOpacity>
             <DatePicker

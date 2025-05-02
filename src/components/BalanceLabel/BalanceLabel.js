@@ -16,7 +16,7 @@ const BalanceLabel = () => {
         <View style={styles.container}>
 			<StatusBar barStyle='light-content' backgroundColor={Colors.background} />
             <View style={styles.header}>
-				<TouchableOpacity style={styles.button} onPress={() => {navigation.goBack()}}>
+				<TouchableOpacity style={styles.button} onPress={() => {navigation.goBack()}} id='balanceLabelBackBtn'>
 					<Icon name='arrow-left' size={50} color={Colors.white} />
 				</TouchableOpacity>
 				<View style={styles.labelWrapper}>
@@ -24,7 +24,7 @@ const BalanceLabel = () => {
 				</View>
             </View>
             <LinearGradient colors={[Colors.violet, Colors.blue]} style={styles.panel}>
-                <Text style={styles.value}>{balance}</Text>
+                <Text style={styles.value} id='currentBalance'>{balance}</Text>
             </LinearGradient>
         </View>
     );

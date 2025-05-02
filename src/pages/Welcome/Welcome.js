@@ -36,12 +36,12 @@ const Welcome = () =>{
         <View style={styles.container}>
             <StatusBar barStyle='light-content' backgroundColor={Colors.background} />
             <View style={styles.logo}>
-                <Image source={Logo} style={styles.logoImage}/>
+                <Image source={Logo} style={styles.logoImage} id='logoImg'/>
             </View>
             <WelcomeMessage/>
             <WelcomeBalanceInput amount={amount} onChangeValue={setAmount}/>
             <ActionFooter>
-                <PrimaryActionButton title='Get started' onPress={onSave} />
+                <PrimaryActionButton title='Get started' onPress={onSave} id={'getStartedBtn'}/>
             </ActionFooter>
         </View>
     );

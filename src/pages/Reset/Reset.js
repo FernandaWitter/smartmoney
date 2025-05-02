@@ -29,8 +29,8 @@ const Reset = () => {
             </View>
             <View style={styles.buttons}>
                 <ActionFooter>
-                    <SecondaryActionButton title='Reset app' onPress={onDelete}/>
-                    <PrimaryActionButton title='Go back' onPress={onClose}/>
+                    <SecondaryActionButton title='Reset app' onPress={onDelete} id={'resetAppBtn'}/>
+                    <PrimaryActionButton title='Go back' onPress={onClose} id={'cancelResetAppBtn'}/>
                 </ActionFooter>
             </View>
         </View>

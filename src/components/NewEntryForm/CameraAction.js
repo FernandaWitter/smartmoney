@@ -18,7 +18,7 @@ const CameraAction = ({photo, onChangePhoto, edit}) => {
     return(
         <View>
             <TouchableOpacity style={[styles.button, (edit ? {backgroundColor: Colors.blue} : {backgroundColor: Colors.asphalt})]} onPress={() => {setShowModal(true);}}>
-                <Icon name='camera-alt' size={30} color={Colors.white}/>
+                <Icon name='camera-alt' size={30} color={Colors.white} id='cameraBtn'/>
             </TouchableOpacity>
             <CameraPickerModal photo={photo} showModal={showModal} onSave={onSave} onClose={onClose}/>
         </View>
